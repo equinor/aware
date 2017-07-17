@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+<section id="content">
+    {% for event in events %}
+     {% if events[event].status == 1 %}
+      <section class="event warning">
+     {% elif events[event].status == 2 %}
+      <section class="event critical">
+     {% else %}
+      <section class="event unknown">
+     {% endif %}
+      <h1 class="clientName">{{ events[event].client_name }}</h1><br />
+      <h2 class="checkName">{{ events[event].check_name }}</h2>
+     {% if events[event].silenced == True %}
+      <h3>acknowledged/silenced</h3>
+     <!-- <h3 class="silenced">Acknowledged and silenced by: {{ events[event].silenced_by }}</h3> -->
+     {% endif %}
+    </section>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
+	<script
+  		src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  		crossorigin="anonymous">
+	</script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='scale.js') }}"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>SensuDash</title>
+</head>
+<body>
+<header>
+    <h1>Waddup, Sensu!?</h1>
+</header>
+{% block body %}
+{% endblock %}
+</body>
