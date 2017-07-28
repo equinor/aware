@@ -1,6 +1,6 @@
 /* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
+     v2.0 | 20110126
+     License: none (public domain)
 */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -28,52 +28,106 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 html {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 body {
-  font-family: 'Josefin Sans', sans-serif;
-  width: 100%;
-  height: 100%;
-  min-height: 500px;
-  color: #e3e3e3;
-  background: #262626;
-  float: left;
-  background: #16222A;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-family: 'Josefin Sans', sans-serif;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    color: #e3e3e3;
+    background: #262626;
+    float: left;
+    background: #16222A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 header {
-  display: block;
-  padding: 1em 0;
-  text-align: center;
-  font-size: 2em;
-  font-weight: bolder;
-  margin: 0 auto;
+    display: block;
+    padding: 1em 0;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bolder;
+    margin: 0 auto;
 }
-#content {
-  color: #3a3a3a;
-  margin: 1em 2%;
+table {
+    color: #3a3a3a;
+    width: 90%;
+    margin: 0 auto;
+    font-weight: bolder;
+    overflow: hidden;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
-.event {
-  text-align: center;
-  width: 48%;
-  float: left;
-  margin: 0 1%;
-  border-radius: 5px;
-  padding: 1em 0;
-  font-weight: bolder;
+table tr:first-child {
+    font-size: 1em;
+    background: #485563; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #485563, #29323c); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #485563, #29323c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #e3e3e3;
+    text-align: center;
+    text-indent: 0%;
+    border-bottom: 4px solid #e3e3e3;
+    border-top: 0; border-left: 0; border-right: 0;
 }
-.clientName {
-  margin-bottom: -0.75em;
-  text-decoration: underline;
-  font-size: 1.5em;
+table tr:first-child td {
+    padding: 0.5em 0;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: #e3e3e3;
 }
-.checkName {
-  font-size: 1.3em;
+table tr:first-child td:first-child { border-width: 0 0 0 0; }
+table tr:first-child td:last-child { border-width: 0 0 0 0; }
+table tr {
+    border: 1px solid #e3e3e3;
 }
-.silenced { }
-.silencedBy { }
-.warning { background: orange; }
-.critical { background: red; }
-.unknown { background: dimgray; }
+table tr td {
+font-size: 0.65em;
+    padding: 0.25em 0;
+}
+table tr td.clientName {
+    width: 15%;
+    padding: 0 0 0 1%;
+}
+table tr td.checkName {
+    width: 7%;
+    text-align: center;
+    border-left: 1px solid #e3e3e3;
+}
+table tr td.checkOutput {
+    width: 50%;
+    padding: 0 0 0 1%;
+    border-left: 1px solid #e3e3e3;
+}
+table tr td.checkSilenced {
+    width: 7%;
+    text-align: center;
+    border-left: 1px solid #e3e3e3;
+}
+.warning {
+    background: #f09819; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f09819, #edde5d); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f09819, #edde5d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.critical {
+    background: #eb3349; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #eb3349, #f45c43); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #eb3349, #f45c43); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.unknown {
+    background: #b9b9b9; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b9b9b9, #d7dde8); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b9b9b9, #d7dde8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+#allGreen {
+    margin: 0 auto;
+    position: absolute;
+    top: 40%;
+    font-size: 5em;
+    font-weight: bolder;
+    text-align: center;
+    width: 100%;
+}

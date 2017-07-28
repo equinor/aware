@@ -3,19 +3,20 @@
 from flask import Flask, render_template, url_for
 import requests
 import json
+import os
 
-url = 'http://<some_url_to_sensu_api>:4567/events'
-
+sensu_api = os.getenv('SENSU_API', "http://example.sensu-api.com:4567/events")
+refresh_interval = os.getenv('REFRESH_INTERVAL', 15)
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
-    response = requests.get(url)
+    response = requests.get(sensu_api)
     if response.ok:
         data = response.json()
-#        with open('result.json', 'w') as datafile:
-#            json.dump(data, datafile, sort_keys=True, indent=4)
+        with open('result.json', 'w') as datafile:
+            json.dump(data, datafile, sort_keys=True, indent=4)
         events = {}
         for event in data:
             id = event['id']
@@ -23,9 +24,10 @@ def index():
             events[id]['client_name'] = event['client']['name']
             events[id]['check_name'] = event['check']['name']
             events[id]['status'] = event['check']['status']
+            events[id]['output'] = event['check']['output']
             events[id]['silenced'] = event['silenced']
             events[id]['silenced_by'] = event['silenced_by']
-        return render_template('index.html', events=events)
+        return render_template('index.html', events=events, refresh_interval=refresh_interval)
     else:
         response.raise_for_status()
 
