@@ -1,7 +1,6 @@
 # Sensu Dashboard
 
 The purpose of this dashboard is to have it be more alarming and visual compared to e.g. Uchiwa. You would typically set this dashboard up on a team-monitor and in the case of an event, get everyones attention, and then inspect further in another dashboard with more features.
-Easy listing of repositories and their containers stored in a given registry.
 
 ## Demo
 
@@ -15,3 +14,4 @@ When there are no events:
 ## Todo
 
 * Add support for Docker
+* Add a usage section for this app
