@@ -11,4 +11,8 @@ $(document).ready(function() {
     else {
         $("body").css({"background": "green" });
    }
+   if ( $("#allGreen").length && $("#failingApis").length ) {
+        $("#allGreen").css({"display": "none"})
+        $("body").css({"background": "red" });
+   })
 });

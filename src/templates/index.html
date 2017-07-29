@@ -8,7 +8,6 @@
           <td>Output</td>
           <td>Silenced</td>
         </tr>
-
         {% for event in events %}
           {% if events[event].status == 1 %}
             <tr class="warning">
@@ -30,5 +29,12 @@
       </table>
     {% else %}
       <h1 id="allGreen">ALL GREEN</h1>
+    {% endif %}
+    {% if failing_apis %}
+      <section id="failingApis">
+        <h1>Unavailable API(s)</h1>
+        {% for api in failing_apis %}
+          <p>{{ api }}</p>
+        {% endfor %}
     {% endif %}
 {% endblock %}
