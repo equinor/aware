@@ -11,7 +11,17 @@ The background change color to the most severe event.
 When there are no events:
 ![alt text](noevents.png)
 
-## Todo
+## Usage
 
-* Add support for Docker
-* Add a usage section for this app
+The easiest way to test and/or use this dashboard is with Docker. Edit docker-compose.yaml to configure the following settings:
+
+* REFRESH_INTERVAL
+How often the html page should reload and poll the API.
+* SENSU_API
+The full path to some Sensu API or multiple APIs in a comma separated list.
+
+Start the application with docker-compose
+```
+docker-compose up -d
+```
+

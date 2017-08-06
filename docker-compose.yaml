@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    sensu-dashboard:
+        restart: unless-stopped
+        build: .
+        container_name: sensu-dashboard
+        image: sensu-dashboard:latest
+        volumes:
+          - ./src:/app
+        ports:
+          - 80:5000
+        environment:
+            REFRESH_INTERVAL: "15"
+            SENSU_API: "http://sensu-api1:4567/events,
+                        http://sensu-api2:4567/events"
