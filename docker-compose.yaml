@@ -9,8 +9,9 @@ services:
         volumes:
           - ./src:/app
         ports:
-          - 80:5000
+          - 5001:5000
         environment:
             REFRESH_INTERVAL: "15"
+            DEBUG: "False"
             SENSU_API: "http://sensu-api1:4567/events,
                         http://sensu-api2:4567/events"

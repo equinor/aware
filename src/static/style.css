@@ -109,13 +109,18 @@ table tr td.checkSilenced {
     background: #eb3349; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #eb3349, #f45c43); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #eb3349, #f45c43); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 .unknown {
     background: #b9b9b9; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #b9b9b9, #d7dde8); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #b9b9b9, #d7dde8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.silenced {
+  background: #56ab2f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #56ab2f, #a8e063); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #56ab2f, #a8e063); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 #allGreen {
     margin: 0 auto;
     position: absolute;

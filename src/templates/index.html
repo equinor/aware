@@ -19,8 +19,8 @@
           <td class="clientName">{{ events[event].client_name }}</td>
           <td class="checkName">{{ events[event].check_name }}</td>
           <td class="checkOutput">{{ events[event].output }}</td>
-          {% if events[event].silenced == True %}
-            <td class="checkSilenced">{{ events[event].silenced_by }}</h3>
+          {% if events[event].silenced %}
+            <td class="checkSilenced">Yes</h3>
           {% else %}
             <td class="checkSilenced">No</h3>
           {% endif %}

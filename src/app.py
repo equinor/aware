@@ -7,6 +7,7 @@ import os
 import re
 
 sensu_api = os.getenv('SENSU_API', "")
+debug = os.getenv('DEBUG', False)
 sensu_apis = sensu_api.split(",")
 refresh_interval = os.getenv('REFRESH_INTERVAL', 15)
 
@@ -47,6 +48,7 @@ def index():
             events[i]['status'] = 2
             events[i]['output'] = "Unable to connect to Sensu API: %s" % api
             events[i]['silenced'] = 'N/A'
+
             events[i]['silenced_by'] = 'N/A'
             i = i + 1
     return render_template('index.html',
@@ -54,6 +56,7 @@ def index():
                            refresh_interval=refresh_interval,
                            sensu_apis=sensu_apis)
 
+
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = debug
     app.run(host="0.0.0.0", port=5000)
