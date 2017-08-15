@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "coffee": {
+      "command": "/usr/bin/echo UNKNOWN: someone asked for tea... && exit 3",
+      "standalone": true,
+      "handlers": ["default", "debug"],
+      "interval": 60
+    }
+  }
+}

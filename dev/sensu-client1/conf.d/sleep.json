@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "sleep": {
+      "command": "/usr/bin/echo CRITICAL: Going into sleep mode soon! && exit 2",
+      "standalone": true,
+      "handlers": ["default", "debug"],
+      "interval": 60
+    }
+  }
+}

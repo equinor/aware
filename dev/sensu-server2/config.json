@@ -1,0 +1,14 @@
+{
+  "redis": {
+    "host": "sensu-redis2",
+    "port": 6379
+  },
+  "transport": {
+    "name": "redis",
+    "reconnect_on_error": true
+  },
+  "api": {
+    "host": "sensu-api2",
+    "port": 4567
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "coffee": {
+      "command": "/usr/bin/echo CRITICAL: I am all out of coffee! && exit 2",
+      "standalone": true,
+      "handlers": ["default", "debug"],
+      "interval": 60
+    }
+  }
+}

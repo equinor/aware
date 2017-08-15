@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "patience": {
+      "command": "/usr/bin/echo CRITICAL: ALL OUT OF PATIENCE AAAAAAAH!1 && exit 2",
+      "standalone": true,
+      "handlers": ["default", "debug"],
+      "interval": 60
+    }
+  }
+}

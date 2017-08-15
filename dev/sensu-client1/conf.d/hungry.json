@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "hungry": {
+      "command": "/usr/bin/echo WARNING: Starting to get hungry here && exit 1",
+      "standalone": true,
+      "handlers": ["default", "debug"],
+      "interval": 60
+    }
+  }
+}
