@@ -62,17 +62,20 @@ def index():
             i = i + 1
         for event in events:
             if events[event]['status'] == "critical" and events[event]['silenced'] != "Yes":
-                background_color_class = "background_critical"
-                break
+                unsilenced_critical_found = True
             elif events[event]['status'] == "warning" and events[event]['silenced'] != "Yes":
-                background_color_class = "background_warning"
-                break
+                unsilenced_warning_found = True
             elif events[event]['status'] == "unknown" and events[event]['silenced'] != "Yes":
-                background_color_class = "background_unknown"
-                break
-            else:
-                background_color_class = "background_ok"
-                break
+                unsilenced_unknown_found = True
+        if unsilenced_critical_found:
+            background_color_class = "background_critical"
+        elif unsilenced_warning_found:
+            background_color_class = "background_warning"
+        elif unsilenced_unknown_found:
+            background_color_class = "background_ok"
+        else:
+            background_color_class = "background_unknown"
+
     return render_template('index.html',
                            events=events,
                            refresh_interval=refresh_interval,
