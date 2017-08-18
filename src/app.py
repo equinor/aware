@@ -75,9 +75,9 @@ def index():
         elif unsilenced_warning_found:
             background_color_class = "background_warning"
         elif unsilenced_unknown_found:
-            background_color_class = "background_ok"
-        else:
             background_color_class = "background_unknown"
+        else:
+            background_color_class = "background_ok"
 
     return render_template('index.html',
                            events=events,
