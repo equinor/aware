@@ -61,13 +61,13 @@ def index():
             events[i]['silenced_by'] = 'N/A'
             i = i + 1
         for event in events:
-            if events[event].status == "critical" and events[event].silenced != "Yes":
+            if events[event]['status'] == "critical" and events[event].silenced != "Yes":
                 background_color_class = "background_critical"
                 break
-            elif events[event].status == "warning" and events[event].silenced != "Yes":
+            elif events[event]['status'] == "warning" and events[event].silenced != "Yes":
                 background_color_class = "background_warning"
                 break
-            elif events[event].status == "unknown" and events[event].silenced != "Yes":
+            elif events[event]['status'] == "unknown" and events[event].silenced != "Yes":
                 background_color_class = "background_unknown"
                 break
             else:
