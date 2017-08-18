@@ -70,7 +70,7 @@ def index():
             elif events[event].status == "unknown" and events[event].silenced != "Yes":
                 background_color_class = "background_unknown"
                 break
-            else
+            else:
                 background_color_class = "background_ok"
                 break
     return render_template('index.html',
