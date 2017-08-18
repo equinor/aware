@@ -32,9 +32,19 @@ def index():
                     events[i] = {}
                     events[i]['client_name'] = event['client']['name']
                     events[i]['check_name'] = event['check']['name']
-                    events[i]['status'] = event['check']['status']
+                    if event['check']['status'] == 2:
+                        events[i]['status'] = "critical"
+                    elif event['check']['status'] == 1:
+                        events[i]['status'] = "warning"
+                    elif event['check']['status'] > 2:
+                        events[i]['status'] = "unknown"
+                    else:
+                        events[i]['status'] = "ok"
                     events[i]['output'] = event['check']['output']
-                    events[i]['silenced'] = event['silenced']
+                    if event['silenced']:
+                        events[i]['silenced'] = "Yes"
+                    else:
+                        events[i]['silenced'] = "No"
                     events[i]['silenced_by'] = event['silenced_by']
                     i = i + 1
             else:
@@ -45,16 +55,29 @@ def index():
             events[i] = {}
             events[i]['client_name'] = api.split('/')[2]
             events[i]['check_name'] = 'Sensu API'
-            events[i]['status'] = 2
+            events[i]['status'] = "critical"
             events[i]['output'] = "Unable to connect to Sensu API: %s" % api
             events[i]['silenced'] = 'N/A'
-
             events[i]['silenced_by'] = 'N/A'
             i = i + 1
+        for event in events:
+            if events[event].status == "critical" and events[event].silenced != "Yes":
+                background_color_class "background_critical"
+                break
+            elif events[event].status == "warning" and events[event].silenced != "Yes":
+                background_color_class "background_warning"
+                break
+            elif events[event].status == "unknown" and events[event].silenced != "Yes":
+                background_color_class "background_unknown"
+                break
+            else
+                background_color_class "background_ok"
+                break
     return render_template('index.html',
                            events=events,
                            refresh_interval=refresh_interval,
-                           sensu_apis=sensu_apis)
+                           sensu_apis=sensu_apis,
+                           background_color_class=background_color_class)
 
 
 if __name__ == '__main__':

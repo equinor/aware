@@ -38,6 +38,10 @@ body {
     color: #e3e3e3;
     float: left;
 }
+.background_critical { background: red; }
+.background_warning  { background: orange; }
+.background_unknown  { background: dimgray; }
+.background_ok       { background: green; }
 header {
     display: block;
     padding: 0.75em 0;
@@ -100,28 +104,28 @@ table tr td.checkSilenced {
     text-align: center;
     border-left: 1px solid #e3e3e3;
 }
-.warning {
+.event_warning {
     background: #f09819; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f09819, #edde5d); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #f09819, #edde5d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.critical {
+.event_critical {
     background: #eb3349; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #eb3349, #f45c43); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #eb3349, #f45c43); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.unknown {
+.event_unknown {
     background: #b9b9b9; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #b9b9b9, #d7dde8); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #b9b9b9, #d7dde8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.silenced {
+.event_silenced {
   background: #56ab2f; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #56ab2f, #a8e063); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #56ab2f, #a8e063); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-#allGreen {
+#all_green {
     margin: 0 auto;
     position: absolute;
     top: 40%;
