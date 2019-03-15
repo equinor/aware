@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: aware
+  name: aware-deployment
+  namespace: monitoring
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: aware
+    spec:
+      containers:
+        - name: aware
+          image: sdpequinor/aware
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: http
+          env:
+            - name: REFRESH_INTERVAL
+              value: "15"
+            - name: DEBUG
+              value: "False"
+            - name: SENSU_API
+              value: "http://sensu-api1:4567/events,http://sensu-api2:4567/events"
+              

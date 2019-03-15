@@ -1,7 +1,7 @@
 FROM python:3
-
-COPY ./src /app
-
-RUN pip install -r /app/requirements.txt
-
-CMD python3 /app/app.py
+WORKDIR /src
+RUN pip install pipenv
+COPY Pipfile Pipfile.lock ./
+RUN pipenv install --system --deploy
+COPY ./src /src
+CMD python3 /src/app.py
