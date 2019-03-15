@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.6-alpine3.7
 WORKDIR /src
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./

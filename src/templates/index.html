@@ -3,26 +3,26 @@
     {% if events %}
       <table>
         <tr>
-          <td>Host</td>
-          <td>Check</td>
-          <td>Output</td>
-          <td>Silenced</td>
+          <td>Alertname</td>
+          <td>Namespace</td>
+          <td>Message</td>
+          <td>Triggered</td>
         </tr>
         {% for event in events %}
-          {% if events[event].silenced == "Yes" %}
-            <tr class="event_{{ events[event].status }} event_silenced">
+          {% if event.silenced == "Yes" %}
+            <tr class="event_{{ event.status }} event_silenced">
           {% else %}
-            <tr class="event_{{ events[event].status }}">
+            <tr class="event_{{ event.status }}">
           {% endif %}
-          <td class="clientName">{{ events[event].client_name }}</td>
-          <td class="checkName">{{ events[event].check_name }}</td>
-          <td class="checkOutput">{{ events[event].output }}</td>
-          <td class="checkSilenced">{{ events[event].silenced }}</h3>
+          <td class="clientName">{{ event.client_name }}</td>
+          <td class="checkName">{{ event.check_name }}</td>
+          <td class="checkOutput">{{ event.output }}</td>
+          <td class="checkSilenced">{{ event.silenced }}</td>
           </tr>
         {% endfor %}
       </table>
     {% else %}
-      <h1 id="all_green">ALL GREEN</h1>
+      <h1 id="all_green">Everything is probably alright</h1>
     {% endif %}
     </section>
 {% endblock %}

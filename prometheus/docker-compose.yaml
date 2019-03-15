@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+
+  aware:
+    restart: unless-stopped
+    build: ../
+    container_name: aware
+    image: sdpequinor/aware:latest
+    volumes:
+      - ../src:/app
+    ports:
+      - 5000:5000
+    environment:
+        REFRESH_INTERVAL: "60"
+        DEBUG: "True"
+        SENSU_MODULE: "False"
+        PROMETHEUS_MODULE: "True"

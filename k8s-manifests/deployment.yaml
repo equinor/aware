@@ -22,8 +22,10 @@ spec:
           env:
             - name: REFRESH_INTERVAL
               value: "15"
-            - name: DEBUG
-              value: "False"
-            - name: SENSU_API
-              value: "http://sensu-api1:4567/events,http://sensu-api2:4567/events"
+            - name: DASHBOARD_HEADER
+              value: "SDP AKS Alerts"
+            - name: PROMETHEUS_API
+              value: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
+            - name: IGNORE_ALERTS
+              value: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"
               
