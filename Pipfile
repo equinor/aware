@@ -4,20 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pylint = "*"
 
 [packages]
-certifi = "*"
-chardet = "*"
-click = "*"
-idna = "*"
-itsdangerous = "*"
+flask = "*"
 requests = "*"
-urllib3 = "*"
-Flask = "*"
-Jinja2 = "*"
-MarkupSafe = "*"
-Werkzeug = "*"
 
 [requires]
 python_version = "3.6"

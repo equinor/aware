@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from config import Config
@@ -20,10 +22,12 @@ def get_path(event, first_key, *keys):
 def get_prometheus_events():
     try:
         request = (requests.get(url=Config.prometheus_api))
+        data = request.json()
     except Exception as e:
         print(f'Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
-    data = request.json()
-    # data = json.loads(Config.mock_data)
+    
+    # For testing...
+    data = json.loads(Config.mock_data)
     filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
 
     events = [{

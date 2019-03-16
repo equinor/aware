@@ -1,8 +1,0 @@
-{
-  "api": {
-    "host": "sensu-api1",
-    "port": 4567
-  }
-}
-
-

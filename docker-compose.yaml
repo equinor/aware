@@ -1,17 +1,17 @@
 version: "3"
-
 services:
-    sensu-dashboard:
-        restart: unless-stopped
-        build: .
-        container_name: sensu-dashboard
-        image: sensu-dashboard:latest
-        volumes:
-          - ./src:/app
-        ports:
-          - 5001:5000
-        environment:
-            REFRESH_INTERVAL: "15"
-            DEBUG: "False"
-            SENSU_API: "http://sensu-api1:4567/events,
-                        http://sensu-api2:4567/events"
+  aware:
+    restart: unless-stopped
+    build: ./
+    container_name: aware
+    image: sdpequinor/aware:latest
+    volumes:
+      - ./src:/src
+    ports:
+      - 5000:5000
+    environment:
+        REFRESH_INTERVAL: "15"
+        FLASK_DEBUG: "True"
+        DASHBOARD_HEADER: "Events"
+        PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
+        IGNORE_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"

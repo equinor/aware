@@ -1,9 +1,0 @@
-{
-  "client": {
-    "name": "sensu-client2",
-    "subscriptions": [
-      "default"
-    ]
-  }
-}
-
