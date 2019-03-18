@@ -1,6 +1,5 @@
 import json
-
-import requests
+from datetime import datetime
 
 from config import Config
 
@@ -19,31 +18,36 @@ def get_path(event, first_key, *keys):
     return value
 
 
-def get_prometheus_events():
-    try:
-        request = (requests.get(url=Config.prometheus_api))
-        data = request.json()
-    except Exception as e:
-        print(f'Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
-    
-    # For testing...
-    data = json.loads(Config.mock_data)
-    filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
-
-    events = [{
-        'client_name': get_path(event, 'labels', 'alertname'),
-        'check_name': get_path(event, 'labels', 'namespace'),
-        'status': get_path(event, 'labels', 'severity'),
-        'output': get_path(event, 'annotations', 'message'),
-        'silenced': event['activeAt'].split('.')[0],
-    } for event in filtered]
-
+def find_most_sever_event(events):
     most_sever_alert = 'ok'
     for event in events:
-        severity = event['status']
+        severity = event['severity']
         if most_sever_alert == 'ok':
             most_sever_alert = severity
         elif most_sever_alert == 'warning' and severity == 'critical':
             most_sever_alert = severity
+    return most_sever_alert
 
-    return {'most_sever': most_sever_alert, 'events': events}
+
+def get_prometheus_events():
+    # try:
+    #     request = (requests.get(url=Config.prometheus_api))
+    #     data = request.json()
+    # except Exception as e:
+    #     print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
+
+    data = json.loads(Config.mock_data)
+    filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
+
+    events = [{
+        'alertname': get_path(event, 'labels', 'alertname'),
+        'namespace': get_path(event, 'labels', 'namespace'),
+        'severity': get_path(event, 'labels', 'severity'),
+        'message': get_path(event, 'annotations', 'message'),
+        'triggered': event['activeAt'].split('.')[0],
+    } for event in filtered]
+
+    sorted_events = sorted(events,
+                           key=lambda event: datetime.strptime(event['triggered'], '%Y-%m-%dT%H:%M:%S').timestamp())
+
+    return {'most_sever': find_most_sever_event(events), 'events': sorted_events}

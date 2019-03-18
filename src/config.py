@@ -2,10 +2,9 @@ import os
 
 
 class Config:
-    ignore_alert_list = os.getenv('IGNORE_ALERTS', 'TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown').split(',')
+    ignore_alert_list = os.getenv('IGNORE_ALERTS', '').split(',')
     dashboard_header = os.getenv('DASHBOARD_HEADER', 'Events')
     flask_debug = os.getenv('FLASK_DEBUG', False)
-    sensu_apis = os.getenv('SENSU_API', '').split(',')
     prometheus_api = os.getenv('PROMETHEUS_API', 'http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts')
     refresh_interval = os.getenv('REFRESH_INTERVAL', 15)
     mock_data = '''

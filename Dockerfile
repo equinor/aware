@@ -1,4 +1,5 @@
 FROM python:3.6-alpine3.7
+ENV PYTHONUNBUFFERED=1
 WORKDIR /src
 RUN apk update && pip install --upgrade pip && pip install pipenv
 COPY Pipfile Pipfile.lock ./

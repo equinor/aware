@@ -10,14 +10,14 @@
         </tr>
         {% for event in events %}
           {% if event.silenced == "Yes" %}
-            <tr class="event_{{ event.status }} event_silenced">
+            <tr class="event_{{ event.severity }} event_silenced">
           {% else %}
-            <tr class="event_{{ event.status }}">
+            <tr class="event_{{ event.severity }}">
           {% endif %}
-          <td class="clientName">{{ event.client_name }}</td>
-          <td class="checkName">{{ event.check_name }}</td>
-          <td class="checkOutput">{{ event.output }}</td>
-          <td class="checkSilenced">{{ event.silenced }}</td>
+          <td class="clientName">{{ event.alertname }}</td>
+          <td class="checkName">{{ event.Namespace }}</td>
+          <td class="checkOutput">{{ event.message }}</td>
+          <td class="checkSilenced">{{ event.triggered }}</td>
           </tr>
         {% endfor %}
       </table>
