@@ -1,6 +1,7 @@
 from datetime import datetime
 import requests
 from config import Config
+# import json
 
 ignore_alert_list = Config.ignore_alert_list
 
@@ -23,6 +24,8 @@ def find_most_sever_event(events):
         severity = event['severity']
         if most_sever_alert == 'ok':
             most_sever_alert = severity
+        elif most_sever_alert == 'none' and severity == 'warning':
+            most_sever_alert = severity
         elif most_sever_alert == 'warning' and severity == 'critical':
             most_sever_alert = severity
     return most_sever_alert
@@ -34,6 +37,8 @@ def get_prometheus_events():
         data = request.json()
     except Exception as e:
         print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
+
+    # data = json.loads(Config.mock_data)
 
     filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
 

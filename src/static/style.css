@@ -64,7 +64,7 @@ table tr:first-child {
     color: #e3e3e3;
     text-align: center;
     text-indent: 0;
-    border-bottom: 4px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
     border-top: 0; border-left: 0; border-right: 0;
 }
 table tr:first-child td {
@@ -103,16 +103,16 @@ table tr td.checkSilenced {
     border-left: 1px solid #e3e3e3;
 }
 .event_warning {
-    background: #FF652F; 
+    background: #FF7600; 
 }
 .event_critical {
-    background: #FC4445; 
+    background: #ed1f28;
 }
-.event_unknown {
-    background: #747474; 
+.event_none {
+    background: #00C2CB; 
 }
 .event_silenced {
-  background: #86C232; 
+  background: #00E30F; 
 }
 
 #all_green {

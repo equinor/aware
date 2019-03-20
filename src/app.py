@@ -14,6 +14,8 @@ def index():
 
     if most_sever_alert == 'ok':
         background_color = 'background_ok'
+    elif most_sever_alert == 'none':
+        background_color = 'background_unknown'
     elif most_sever_alert == 'warning':
         background_color = 'background_warning'
     elif most_sever_alert == 'critical':
