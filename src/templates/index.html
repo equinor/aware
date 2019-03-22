@@ -15,7 +15,7 @@
             <tr class="event_{{ event.severity }}">
           {% endif %}
           <td class="clientName">{{ event.alertname }}</td>
-          <td class="checkName">{{ event.Namespace }}</td>
+          <td class="checkName">{{ event.namespace }}</td>
           <td class="checkOutput">{{ event.message }}</td>
           <td class="checkSilenced">{{ event.triggered }}</td>
           </tr>
