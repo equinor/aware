@@ -38,7 +38,7 @@ def get_prometheus_events():
     except Exception as e:
         print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
 
-    # data = json.loads(Config.mock_data)
+    # data = json.loads(Config.mockdata2)
 
     filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
 
@@ -47,10 +47,11 @@ def get_prometheus_events():
         'namespace': get_path(event, 'labels', 'namespace'),
         'severity': get_path(event, 'labels', 'severity'),
         'message': get_path(event, 'annotations', 'message'),
-        'triggered': event['activeAt'].split('.')[0],
+        'triggered': event['activeAt'].replace('Z', '').split('.')[0],
     } for event in filtered]
 
     sorted_events = sorted(events,
-                           key=lambda event: datetime.strptime(event['triggered'], '%Y-%m-%dT%H:%M:%S').timestamp())
+                           key=lambda event: datetime.strptime(event['triggered'], '%Y-%m-%dT%H:%M:%S').timestamp(),
+                           reverse=True)
 
     return {'most_sever': find_most_sever_event(events), 'events': sorted_events}
