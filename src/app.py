@@ -20,8 +20,7 @@ def index():
         background_color = 'background_warning'
     elif most_sever_alert == 'critical':
         background_color = 'background_critical'
-    prometheus_object['events'] = \
-        [alert for alert in prometheus_object['events'] if not alert['alertname'] == 'Watchdog']
+
     watchdog_alert = [alert for alert in prometheus_object['events'] if alert['alertname'] == 'Watchdog']
     prometheus_object['events'] = \
         [alert for alert in prometheus_object['events'] if not alert['alertname'] == 'Watchdog']
