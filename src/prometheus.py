@@ -24,7 +24,7 @@ def find_most_sever_event(events):
         severity = event['severity']
         if most_sever_alert == 'ok':
             most_sever_alert = severity
-        elif most_sever_alert == 'none' and severity == 'warning':
+        elif most_sever_alert == 'none' and (severity == 'warning' or severity == 'critical'):
             most_sever_alert = severity
         elif most_sever_alert == 'warning' and severity == 'critical':
             most_sever_alert = severity
