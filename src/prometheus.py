@@ -19,6 +19,7 @@ def get_path(event, first_key, *keys):
 
 
 def find_most_sever_event(events):
+    events = [event for event in events if event['alertname'] != 'Watchdog']
     most_sever_alert = 'ok'
     for event in events:
         severity = event['severity']
