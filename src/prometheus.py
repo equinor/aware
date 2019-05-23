@@ -1,4 +1,3 @@
-from datetime import datetime
 import requests
 from config import Config
 # import json
@@ -48,11 +47,11 @@ def get_prometheus_events():
         'namespace': get_path(event, 'labels', 'namespace'),
         'severity': get_path(event, 'labels', 'severity'),
         'message': get_path(event, 'annotations', 'message'),
-        'triggered': event['activeAt'].replace('Z', '').split('.')[0],
+        'triggered': event['activeAt'],
     } for event in filtered]
 
     sorted_events = sorted(events,
-                           key=lambda event: datetime.strptime(event['triggered'], '%Y-%m-%dT%H:%M:%S').timestamp(),
+                           key=lambda event: event['triggered'],
                            reverse=True)
 
     return {'most_sever': find_most_sever_event(events), 'events': sorted_events}

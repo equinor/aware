@@ -3,10 +3,8 @@ import os
 
 class Config:
     ignore_alert_list = os.getenv('IGNORE_ALERTS', '').split(',')
-    dashboard_header = os.getenv('DASHBOARD_HEADER', 'Events')
     flask_debug = os.getenv('FLASK_DEBUG', False)
     prometheus_api = os.getenv('PROMETHEUS_API', 'http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts')
-    refresh_interval = os.getenv('REFRESH_INTERVAL', 15)
     mockdata2 = r'''{"status":"success","data":{"alerts":[{"labels":{"alertname":"Watchdog","severity":"none"},"annotations":{"message":"This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n"},"state":"firing","activeAt":"2019-04-07T05:52:15.470372903Z","value":1}]}}
     '''
     mock_data = '''
