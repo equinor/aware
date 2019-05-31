@@ -1,12 +1,13 @@
 from config import Config
 from flask import Flask, jsonify
 from prometheus import get_prometheus_events
+from github_releases import get_github_releases
 
 app = Flask(__name__)
 
 
 @app.route('/api/prometheus', methods=['GET'])
-def index():
+def prometheus():
     prometheus_object = get_prometheus_events()
 
     watchdog_alert = [alert for alert in prometheus_object['events']
@@ -19,6 +20,13 @@ def index():
     dead_mans_switch = True if watchdog_alert else False
 
     return jsonify(prometheus_object['events'])
+
+
+@app.route('/api/github', methods=['GET'])
+def github():
+    github_releases = get_github_releases()
+
+    return jsonify(github_releases)
 
 
 if __name__ == '__main__':
