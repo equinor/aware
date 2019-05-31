@@ -9,14 +9,14 @@ app = Flask(__name__)
 def index():
     prometheus_object = get_prometheus_events()
 
-    watchdog_alert = [alert for alert in prometheus_object['events'] if alert['alertname'] == 'Watchdog']
-    prometheus_object['events'] = \
-        [alert for alert in prometheus_object['events'] if not alert['alertname'] == 'Watchdog']
+    watchdog_alert = [alert for alert in prometheus_object['events']
+                      if alert['alertname'] == 'Watchdog']
 
-    if watchdog_alert:
-        dead_mans_switch = False
-    else:
-        dead_mans_switch = True
+    prometheus_object['events'] = \
+        [alert for alert in prometheus_object['events']
+            if not alert['alertname'] == 'Watchdog']
+
+    dead_mans_switch = True if watchdog_alert else False
 
     return jsonify(prometheus_object['events'])
 

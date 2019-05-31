@@ -36,11 +36,13 @@ def get_prometheus_events():
         request = (requests.get(url=Config.prometheus_api))
         data = request.json()
     except Exception as e:
-        print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
+        print(
+            f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
 
-    # data = json.loads(Config.mockdata2)
+    # data = json.loads(Config.mock_data)
 
-    filtered = [alert for alert in data['data']['alerts'] if alert['labels']['alertname'] not in ignore_alert_list]
+    filtered = [alert for alert in data['data']['alerts']
+                if alert['labels']['alertname'] not in ignore_alert_list]
 
     events = [{
         'alertname': get_path(event, 'labels', 'alertname'),
