@@ -1,12 +1,21 @@
 version: "3"
 services:
-  aware:
+
+  nginx:
+    depends_on:
+      - api
+      - web
+    build: proxy
+    ports:
+      - "80:80"
+
+  api:
     restart: unless-stopped
-    build: ./
+    build: api
     container_name: aware
-    image: sdpequinor/aware:latest
+    image: sdpequinor/aware-api:latest
     volumes:
-      - ./src:/src
+      - ./api:/src
     ports:
       - 5000:5000
     environment:
@@ -14,4 +23,14 @@ services:
         FLASK_DEBUG: "True"
         DASHBOARD_HEADER: "Events"
         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
-        IGNORE_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"
+        SENSU_API: "http://mon01.prod.sdp.statoil.no:8080/api/core/v2/namespaces/default/events"
+        SENSU_KEY: ${SENSU_KEY}
+        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"
+
+  web:
+   image: sdpequinor/aware-web:latest
+   build: web
+   volumes:
+     - ./web/src/:/code/src
+   ports:
+     - 3000:3000
