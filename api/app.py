@@ -8,6 +8,7 @@ from sensu import get_sensu_events
 
 app = Flask(__name__)
 
+
 @app.route('/api/events', methods=['GET'])
 def events():
     events = []

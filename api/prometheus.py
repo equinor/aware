@@ -21,7 +21,7 @@ def get_prometheus_events():
         print(
             f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
 
-    data = json.loads(Config.mock_data)
+    # data = json.loads(Config.mock_data)
 
     filtered = [alert for alert in data['data']['alerts']
                 if alert['labels']['alertname'] not in ignore_alert_list
