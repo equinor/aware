@@ -60,7 +60,8 @@ function EventContainer({ events }) {
         <tbody>
           <TR>
             <TH>Alertname</TH>
-            <TH>Namespace</TH>
+            <TH>Namespace/Host</TH>
+            <TH>Source</TH>
             <TH>Message</TH>
             <TH>Triggered</TH>
           </TR>
@@ -71,8 +72,9 @@ function EventContainer({ events }) {
             >
               <TD>{event.alertname}</TD>
               <TD>{event.namespace}</TD>
+              <TD>{event.source}</TD>
               <TD>{event.message}</TD>
-              <TD>{new Date(event.triggered).toLocaleString()}</TD>
+              <TD>{event.triggered}</TD>
             </TR>
           ))}
         </tbody>

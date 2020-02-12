@@ -81,7 +81,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      api: 'sensu',
       error: null,
       isLoaded: false,
       events: []
@@ -90,7 +89,7 @@ class App extends React.Component {
 
   refetchData() {
     axios
-      .get(`/api/${this.state.api}`)
+      .get(`/api/events`)
       .then(response => {
         this.setState({
           isLoaded: true,

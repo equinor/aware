@@ -1,40 +1,28 @@
+import time
+
 from config import Config
 from flask import Flask, jsonify
 from prometheus import get_prometheus_events
+from sensu import get_sensu_events
 
 
 app = Flask(__name__)
 
+@app.route('/api/events', methods=['GET'])
+def events():
+    events = []
 
-@app.route('/api/prometheus', methods=['GET'])
-def prometheus():
-    prometheus_object = get_prometheus_events()
+    if Config.sensu_api:
+        events += get_sensu_events()
 
-    watchdog_alert = [alert for alert in prometheus_object['events']
-                      if alert['alertname'] == 'Watchdog']
+    if Config.prometheus_api:
+        events += get_prometheus_events()
 
-    prometheus_object['events'] = \
-        [alert for alert in prometheus_object['events']
-            if not alert['alertname'] == 'Watchdog']
+    sorted_events = sorted(events, key=lambda event: event['triggered'], reverse=True)
 
-    dead_mans_switch = True if watchdog_alert else False
+    [e.update({"triggered": time.ctime(e["triggered"])}) for e in sorted_events]
 
-    return jsonify(prometheus_object['events'])
-
-@app.route('/api/sensu', methods=['GET'])
-def sensu():
-    prometheus_object = get_prometheus_events()
-
-    watchdog_alert = [alert for alert in prometheus_object['events']
-                      if alert['alertname'] == 'Watchdog']
-
-    prometheus_object['events'] = \
-        [alert for alert in prometheus_object['events']
-            if not alert['alertname'] == 'Watchdog']
-
-    dead_mans_switch = True if watchdog_alert else False
-
-    return jsonify(prometheus_object['events'])
+    return jsonify(sorted_events)
 
 
 if __name__ == '__main__':
