@@ -3,8 +3,10 @@ import os
 
 class Config:
     export_secret = os.getenv("EXPORT_SECRET")
-    ignore_alert_list = os.getenv('IGNORE_PROMETHEUS_ALERTS', '').split(',')
-    import_urls_list = os.getenv("IMPORT_URLS","").split(';')
+    _ignore_alert_list_ = os.getenv('IGNORE_PROMETHEUS_ALERTS')
+    ignore_alert_list = _ignore_alert_list_.split(',') if _ignore_alert_list_ else []
+    _import_urls_list_ = os.getenv("IMPORT_URLS")
+    import_urls_list = _import_urls_list_.split(";") if _import_urls_list_ else []
     flask_debug = os.getenv('FLASK_DEBUG', False)
     prometheus_api = os.getenv('PROMETHEUS_API')
     sensu_api = os.getenv('SENSU_API')

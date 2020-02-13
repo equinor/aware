@@ -23,7 +23,7 @@ services:
         FLASK_DEBUG: "True"
         EXPORT_SECRET: ${EXPORT_SECRET}
         # ';' separated list of urls to fetch external aware-events from
-        IMPORT_URLS: "https://aware.dev.sdpaks.equinor.com/api/exports"
+#        IMPORT_URLS: "https://aware.dev.sdpaks.equinor.com/api/exports"
 #         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
 #        PROMETHEUS_API: "https://aware.dev.sdpaks.equinor.com/api/prometheus"
 #        SENSU_API: "http://mon01.prod.sdp.statoil.no:8080/api/core/v2/namespaces/default/events"

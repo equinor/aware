@@ -1,10 +1,9 @@
-import json
 from typing import Dict, List
 
 import requests
 
 from config import Config
-from utils import dead_mans_switch, truncate_string
+from utils import dead_mans_switch
 
 
 def get_exported_events(url) -> List[Dict]:
