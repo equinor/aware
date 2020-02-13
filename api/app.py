@@ -1,4 +1,5 @@
 import time
+from typing import Dict, List
 
 from config import Config
 from flask import Flask, jsonify, request, abort
@@ -10,9 +11,7 @@ from monitors.sensu import get_sensu_events
 
 app = Flask(__name__)
 
-# Unprotected endpoint
-@app.route('/api/events', methods=['GET'])
-def events():
+def get_raw_events() -> List[Dict]:
     events = []
 
     if Config.sensu_api:
@@ -23,6 +22,13 @@ def events():
 
     for external_url in Config.import_urls_list:
         events += get_exported_events(external_url)
+
+    return events
+
+# Unprotected endpoint
+@app.route('/api/events', methods=['GET'])
+def events():
+    events = get_raw_events()
 
     sorted_events = sorted(events, key=lambda event: event['triggered'], reverse=True)
 
@@ -42,7 +48,7 @@ def exports():
         print(f"Failed to get key from export request. ERROR: {error}")
 
     if key == Config.export_secret:
-        return events()
+        return jsonify(get_raw_events())
 
     return abort(403)
 

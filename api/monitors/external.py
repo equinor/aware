@@ -12,8 +12,7 @@ def get_exported_events(url) -> List[Dict]:
     try:
         request = (requests.get(url=url, headers=headers))
         data = request.json()
+        return data
     except Exception as e:
         print(f"Fatal: Could not GET the from the external url {url}. Error: {e}")
         return dead_mans_switch("Imports", url, e)
-
-    return json.loads(data)

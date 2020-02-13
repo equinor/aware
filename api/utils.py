@@ -33,4 +33,6 @@ def local_to_epoch_time(local_string) -> int:
     return int(timestamp)
 
 def truncate_string(string, length = 120) -> str:
+    if not string:
+        return ""
     return (string[:length] + '...') if len(string) > length else string
