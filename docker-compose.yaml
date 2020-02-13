@@ -8,6 +8,7 @@ services:
     build: proxy
     ports:
       - "80:80"
+#      - "3001:80"
 
   api:
     restart: unless-stopped
@@ -19,6 +20,7 @@ services:
 #         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
 #        PROMETHEUS_API: "https://aware.dev.sdpaks.equinor.com/api/prometheus"
         SENSU_API: "http://mon01.prod.sdp.statoil.no:8080/api/core/v2/namespaces/default/events"
+        IMPORT_URLS: "https://aware.dev.sdpaks.equinor.com/api/exports"
         SENSU_KEY: ${SENSU_KEY}
         EXPORT_SECRET: ${EXPORT_SECRET}
 #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"
