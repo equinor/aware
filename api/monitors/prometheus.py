@@ -12,7 +12,7 @@ def get_prometheus_events():
         data = request.json()
     except Exception as e:
         print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
-        return dead_mans_switch(Config.prometheus_api, e)
+        return dead_mans_switch("Prometheus events", Config.prometheus_api, e)
 
     # data = json.loads(Config.mock_data)
 

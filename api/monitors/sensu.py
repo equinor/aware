@@ -1,6 +1,4 @@
-import json
-import time
-from typing import List, Dict
+from typing import Dict, List
 
 import requests
 
@@ -24,7 +22,7 @@ def get_sensu_events() -> List[Dict]:
         data = request.json()
     except Exception as e:
         print(f"Fatal: Could not GET Sensu API {Config.sensu_api}. Error: {e}")
-        return dead_mans_switch(Config.sensu_api, e)
+        return dead_mans_switch("Sensu checks", Config.sensu_api, e)
 
     # data = json.loads(Config.sensu_mock_data)
 

@@ -15,9 +15,9 @@ def get_path(event, first_key, *keys):
     return value
 
 
-def dead_mans_switch(url, error) -> List[Dict]:
+def dead_mans_switch(name, url, error) -> List[Dict]:
     return [{
-            'alertname': "Fetch failed",
+            'alertname': f"Fetch {name} failed",
             'namespace': "Aware",
             'severity': "critical",
             'message': f"Failed to fetch data from {url}. {error}",

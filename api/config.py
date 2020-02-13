@@ -2,11 +2,13 @@ import os
 
 
 class Config:
+    export_secret = os.getenv("EXPORT_SECRET")
     ignore_alert_list = os.getenv('IGNORE_PROMETHEUS_ALERTS', '').split(',')
+    import_urls_list = os.getenv("IMPORT_URLS","").split(':')
     flask_debug = os.getenv('FLASK_DEBUG', False)
-    prometheus_api = os.getenv('PROMETHEUS_API', None)
-    sensu_api = os.getenv('SENSU_API', None)
-    sensu_key = os.getenv("SENSU_KEY", None)
+    prometheus_api = os.getenv('PROMETHEUS_API')
+    sensu_api = os.getenv('SENSU_API')
+    sensu_key = os.getenv("SENSU_KEY")
 
 
     mockdata2 = r'''{"status":"success","data":{"alerts":[{"labels":{"alertname":"Watchdog","severity":"none"},"annotations":{"message":"This is an alert meant to ensure that the entire alerting pipeline is functional.This alert is always firing, therefore it should always be firing in Alertmanagerand always fire against a receiver. There are integrations with various notificationmechanisms that send a notification when this alert is not firing. For example the\"DeadMansSnitch\" integration in PagerDuty."},"state":"firing","activeAt":"2019-04-07T05:52:15.470372903Z","value":1}]}}
