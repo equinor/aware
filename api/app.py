@@ -21,7 +21,7 @@ def events():
 
     sorted_events = sorted(events, key=lambda event: event['triggered'], reverse=True)
 
-    [e.update({"triggered": time.ctime(e["triggered"])}) for e in sorted_events]
+    [e.update({"triggered": time.strftime("%a, %d %H:%M" ,time.localtime(e["triggered"]))}) for e in sorted_events]
 
     return jsonify(sorted_events)
 

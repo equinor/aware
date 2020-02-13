@@ -22,7 +22,8 @@ services:
         REFRESH_INTERVAL: "15"
         FLASK_DEBUG: "True"
         DASHBOARD_HEADER: "Events"
-        # PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
+#         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
+        PROMETHEUS_API: "https://aware.dev.sdpaks.equinor.com/api/prometheus"
         SENSU_API: "http://mon01.prod.sdp.statoil.no:8080/api/core/v2/namespaces/default/events"
         SENSU_KEY: ${SENSU_KEY}
         IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown"

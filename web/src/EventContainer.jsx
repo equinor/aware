@@ -29,6 +29,14 @@ const TH = styled.th`
   background: black;
 `;
 
+const THTriggered = styled.th`
+  min-width: 85px;
+  border: 1px solid black;
+  padding: 15px;
+  color: white;
+  background: black;
+`;
+
 const TABLE = styled.table`
   width: 90%;
   margin: auto;
@@ -63,7 +71,7 @@ function EventContainer({ events }) {
             <TH>Namespace/Host</TH>
             <TH>Source</TH>
             <TH>Message</TH>
-            <TH>Triggered</TH>
+            <THTriggered>Triggered</THTriggered>
           </TR>
           {events.map(event => (
             <TR

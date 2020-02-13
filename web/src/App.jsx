@@ -109,7 +109,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.refetchData();
-    this.interval = setInterval(() => this.refetchData(), 10000);
+    this.interval = setInterval(() => this.refetchData(), 30000);
   }
 
   componentWillUnmount() {

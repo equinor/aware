@@ -826,7 +826,7 @@ class Config:
       ],
       "issued": 1581507402,
       "output": "DISK OK - free space: / 178252 MiB (64.64% inode=99%); /dev 3896 MiB (100.00% inode=100%); /boot 281 MiB (62.93% inode=100%); /tmp 8149 MiB (99.60% inode=100%); /var 5091 MiB (62.22% inode=100%);| /=97476MiB;220583;248156;0;275729 /dev=0MiB;3116;3506;0;3896 /boot=165MiB;380;428;0;476 /tmp=32MiB;6545;7363;0;8182 /var=3090MiB;6545;7363;0;8182",
-      "state": "passing",
+      "state": "failing",
       "status": 0,
       "total_state_change": 0,
       "last_ok": 1581507402,

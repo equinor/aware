@@ -1,25 +1,18 @@
 import requests
-from datetime import datetime
 
-from utils import get_path
 from config import Config
-import json
+from utils import dead_mans_switch, get_path, local_to_epoch_time, truncate_string
 
 ignore_alert_list = Config.ignore_alert_list
 
-def local_to_epoch_time(local_string) -> int:
-    local_string = local_string.split(".", 1)[0]
-    utc_dt = datetime.strptime(local_string, '%Y-%m-%dT%H:%M:%S')
-    timestamp = (utc_dt - datetime(1970, 1, 1)).total_seconds()
-    return int(timestamp)
 
 def get_prometheus_events():
     try:
         request = (requests.get(url=Config.prometheus_api))
         data = request.json()
     except Exception as e:
-        print(
-            f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
+        print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
+        return dead_mans_switch(Config.prometheus_api, e)
 
     # data = json.loads(Config.mock_data)
 
@@ -31,7 +24,7 @@ def get_prometheus_events():
         'alertname': get_path(event, 'labels', 'alertname'),
         'namespace': get_path(event, 'labels', 'namespace'),
         'severity': get_path(event, 'labels', 'severity'),
-        'message': get_path(event, 'annotations', 'message'),
+        'message': truncate_string(get_path(event, 'annotations', 'message')),
         'triggered': local_to_epoch_time(event['activeAt']),
         "source": "SDP-AKS"
     } for event in filtered]
