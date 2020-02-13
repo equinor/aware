@@ -48,7 +48,9 @@ def exports():
         print(f"Failed to get key from export request. ERROR: {error}")
 
     if key == Config.export_secret:
-        return jsonify(get_raw_events())
+        events = get_raw_events()
+        [event.update({"source": Config.deployment_name}) for event in events]
+        return jsonify(events)
 
     return abort(403)
 
