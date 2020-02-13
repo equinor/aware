@@ -14,7 +14,13 @@ services:
     build: api
     container_name: aware
     image: sdpequinor/aware-api:latest
+    
+    volumes:
+      - ./api:/src
+    ports:
+      - 5000:5000
     environment:
+        REFRESH_INTERVAL: "15"
         FLASK_DEBUG: "True"
         DASHBOARD_HEADER: "Events"
 #         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
@@ -26,3 +32,7 @@ services:
   web:
    image: sdpequinor/aware-web:latest
    build: web
+   volumes:
+     - ./web/src/:/code/src
+   ports:
+     - 3000:3000
