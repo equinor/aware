@@ -17,8 +17,7 @@ def get_prometheus_events():
     # data = json.loads(Config.mock_data)
 
     filtered = [alert for alert in data['data']['alerts']
-                if alert['labels']['alertname'] not in ignore_alert_list
-                or alert['labels']['alertname'] != "Watchdog"]
+                if alert['labels']['alertname'] not in ignore_alert_list]
 
     events = [{
         'alertname': get_path(event, 'labels', 'alertname'),
