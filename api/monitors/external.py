@@ -9,7 +9,7 @@ from utils import dead_mans_switch
 def get_exported_events(url) -> List[Dict]:
     headers = {"AUTHORIZATION": f"Key {Config.export_secret}"}
     try:
-        request = (requests.get(url=url, headers=headers))
+        request = (requests.get(url=url, headers=headers, timeout=5))
         if request.status_code == 404:
             msg = "ERROR: External url returned 404 status"
             print(msg)

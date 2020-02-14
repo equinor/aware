@@ -74,10 +74,7 @@ function EventContainer({ events }) {
             <THTriggered>Triggered</THTriggered>
           </TR>
           {events.map(event => (
-            <TR
-              key={event.alertname + event.message}
-              background={event.severity}
-            >
+            <TR background={event.severity}>
               <TD>{event.alertname}</TD>
               <TD>{event.namespace}</TD>
               <TD>{event.source}</TD>
