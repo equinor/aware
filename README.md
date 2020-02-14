@@ -1,9 +1,8 @@
-# Aware - A highly visual Prometheus alerts dashboard
+# Aware - A highly visual system agnostic alerting dashboard
 
 The purpose of this dashboard is to have it be more alarming and visual compared to e.g. the Prometheus Alerts page. You would typically set this dashboard up on a team-monitor and in the case of an event, get everyones attention, and then inspect further in another dashboard with more features.
 
 ## Demo
-(Outdated!: But basically the same, just with Prometheus and not Sensu)  
 In the case of events:
 ![alt text](events.png)
 The background change color to the most severe event.
@@ -11,26 +10,60 @@ The background change color to the most severe event.
 When there are no events:
 ![alt text](noevents.png)
 
+When the source API is unavailable:  
+![fetch error](fetcherror.png)
+
+## API Endpoints
+
+The API exposes two endpoints (`/api/events`, and `/api/exports`).
+
+### /api/events GET
+
+Returns a list of alerts sorted on time first triggered. Aggregated from all configured alerting API's. (Currently suppport Sensu Go-^5.17 and Prometheus ^2.15 )
+
+### /api/exports GET
+
+Meant to be used when you have a protected network(Kubernetes cluster), where createing Auth mechanisms for the alerting backends are troublesome. You can then deploy Aware-API inside the LAN and have it gather events from the unprotected api's, and export them from this endpoint.
+
+Returns the same list as from `/api/events`, but rewrites the "source" tag to the ENV_VAR DEPLOYMENT_NAME.
+
+This endpoint is also protected with a very basic API-Key mechanism.
+
+#### Authorization
+
+``` sh
+GET /api/exports
+Headers: AUTHORIZATION: Key MyVerySecretKey
+```
+
 ## Usage
 
-The easiest way to test and/or use this dashboard is with Docker. Edit docker-compose.yaml to configure the following settings:
+The easiest way to test and/or use this dashboard is with Docker(-compose).  
+All configuration is loaded from environment variabled.
 
-* REFRESH_INTERVAL  
-How often the html page should reload and poll the API.
+* DEPLOYMENT_NAME:  
+   Value that will be used as "source" on exported alerts
 * PROMETHEUS_API  
-The full path to the Prometheus API.  
+The full URL to the Prometheus API to gather alerts from.  
 (e.g. http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts;  Here it points to a Kubernetes service in the 'monitoring' namespace.)
-* DASHBOARD_HEADER  
-The string you want to replace 'Sensu Events' with in the screenshots.
-* IGNORE_ALERTS  
-A comma separated string of the names of Prometheus alerts that should be ignored.
+* SENSU_API:  
+  The full url to a Sensu Go api
+* IMPORT_URLS:  
+  A string with several ";" separated URL's to import Aware-API standard alerts from.
+* SENSU_KEY:  
+The API-Key to the configured Sensu backend.  
+* EXPORT_SECRET:  
+  The key that clients will need to provide to Authenticate with the `/api/exports` endpoint.
+* IGNORE_PROMETHEUS_ALERTS:  
+  A string with several ";" separated Prometheus AlertNames to be ignored.
 
-Start the application with docker-compose
-```
-docker-compose up -d
-```
-Or deploy it to your Kubernetes cluster after tweaking the example manifests.
-```
-kubectl apply -f ./k8s-manifests/
-```
+## Front end
 
+Pretty simple stuff.  
+Changes background color based on "most sever alert".  
+Refetches all alerts every 30 seconds.
+
+## Limitations
+
+* Only supports one of each Sensu and Prometheus backends.
+* Only one export api-key.
