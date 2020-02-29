@@ -1,15 +1,16 @@
+import json
 import time
 from typing import Dict, List
 
-from config import Config
-from flask import Flask, jsonify, request, abort
+from flask import abort, Flask, jsonify, request
 
+from config import Config
 from monitors.external import get_exported_events
 from monitors.prometheus import get_prometheus_events
 from monitors.sensu import get_sensu_events
 
-
 app = Flask(__name__)
+
 
 def get_raw_events() -> List[Dict]:
     events = []
@@ -25,6 +26,7 @@ def get_raw_events() -> List[Dict]:
 
     return events
 
+
 # Unprotected endpoint
 @app.route('/api/events', methods=['GET'])
 def events():
@@ -32,7 +34,7 @@ def events():
 
     sorted_events = sorted(events, key=lambda event: event['triggered'], reverse=True)
 
-    [e.update({"triggered": time.strftime("%a, %d %H:%M" ,time.localtime(e["triggered"]))}) for e in sorted_events]
+    [e.update({"triggered": time.strftime("%a, %d %H:%M", time.localtime(e["triggered"]))}) for e in sorted_events]
 
     return jsonify(sorted_events)
 
@@ -50,7 +52,7 @@ def exports():
     if key == Config.export_secret:
         events = get_raw_events()
         [event.update({"source": Config.deployment_name}) for event in events]
-        return jsonify(events)
+        return json.dumps(events)
 
     return abort(403)
 

@@ -18,13 +18,11 @@ def convert_severity(status) -> str:
 def get_sensu_events() -> List[Dict]:
     headers = {"AUTHORIZATION": f"Key {Config.sensu_key}"}
     try:
-        request = (requests.get(url=Config.sensu_api, headers=headers))
+        request = requests.get(url=Config.sensu_api, headers=headers)
         data = request.json()
     except Exception as e:
         print(f"Fatal: Could not GET Sensu API {Config.sensu_api}. Error: {e}")
         return dead_mans_switch("Sensu checks", Config.sensu_api, e)
-
-    # data = json.loads(Config.sensu_mock_data)
 
     not_passing_status = [check for check in data if check["check"]["state"] != "passing"]
 

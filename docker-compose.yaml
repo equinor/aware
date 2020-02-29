@@ -2,6 +2,7 @@ version: "3"
 services:
 
   nginx:
+    restart: unless-stopped
     depends_on:
       - api
       - web
@@ -30,7 +31,8 @@ services:
 #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown,Watchdog"
 
   web:
-   image: sdpequinor/aware-web:latest
-   build: web
-   volumes:
-     - ./web/src/:/code/src
+    restart: unless-stopped
+    image: sdpequinor/aware-web:latest
+    build: web
+    volumes:
+      - ./web/src/:/code/src
