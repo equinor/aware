@@ -24,10 +24,8 @@ def get_sensu_silences() -> List[Dict]:
         return dead_mans_switch("Sensu checks", Config.sensu_silences_api, e)
 
     ignored_items = [silenced for silenced in data]
-
-    ignores = [{
-        'alertname': ignore["metadata"]["name"]
-    } for ignore in ignored_items]
+    ignores = [ignore["metadata"]["name"] for ignore in ignored_items]
+    return ignores
 
 
 def get_sensu_events() -> List[Dict]:
@@ -41,6 +39,8 @@ def get_sensu_events() -> List[Dict]:
 
     not_passing_status = [check for check in data if check["check"]["state"] != "passing"]
 
+    ignores = get_sensu_silences()
+
     events = [{
         'alertname': event["check"]['metadata']['name'],
         'namespace': event["entity"]["metadata"]["name"],
@@ -48,6 +48,6 @@ def get_sensu_events() -> List[Dict]:
         'message': truncate_string(event["check"]["output"]),
         'triggered': int(event["check"]["last_ok"]),
         "source": "Sensu"
-    } for event in not_passing_status]
+    } for event in not_passing_status if event["check"]['metadata']['name'] not in ignores]
 
     return events
