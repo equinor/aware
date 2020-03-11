@@ -11,6 +11,7 @@ class Config:
     flask_debug = os.getenv('FLASK_DEBUG', False)
     prometheus_api = os.getenv('PROMETHEUS_API')
     sensu_api = os.getenv('SENSU_API')
+    sensu_silences_api = os.getenv('SENSU_SILENCED_API')
     sensu_key = os.getenv("SENSU_KEY")
 
 

@@ -14,6 +14,21 @@ def convert_severity(status) -> str:
     else:
         return "none"
 
+def get_sensu_silences() -> List[Dict]:
+    headers = {"AUTHORIZATION": f"Key {Config.sensu_key}"}
+    try:
+        request = requests.get(url=Config.sensu_silences_api, headers=headers)
+        data = request.json()
+    except Exception as e:
+        print(f"Fatal: Could not GET Sensu silences API {Config.sensu_silences_api}. Error: {e}")
+        return dead_mans_switch("Sensu checks", Config.sensu_silences_api, e)
+
+    ignored_items = [silenced for silenced in data]
+
+    ignores = [{
+        'alertname': ignore["metadata"]["name"]
+    } for ignore in ignored_items]
+
 
 def get_sensu_events() -> List[Dict]:
     headers = {"AUTHORIZATION": f"Key {Config.sensu_key}"}
