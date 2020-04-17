@@ -5,7 +5,7 @@ class Config:
     export_secret = os.getenv("EXPORT_SECRET")
     deployment_name = os.getenv("DEPLOYMENT_NAME", "none")
     _ignore_alert_list_ = os.getenv('IGNORE_PROMETHEUS_ALERTS')
-    ignore_alert_list = _ignore_alert_list_.split(';') if _ignore_alert_list_ else []
+    ignore_alert_list = _ignore_alert_list_.split(',') if _ignore_alert_list_ else []
     _import_urls_list_ = os.getenv("IMPORT_URLS")
     import_urls_list = _import_urls_list_.split(";") if _import_urls_list_ else []
     flask_debug = os.getenv('FLASK_DEBUG', False)
