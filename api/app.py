@@ -34,7 +34,9 @@ def events():
 
     sorted_events = sorted(events, key=lambda event: event['triggered'], reverse=True)
 
-    [e.update({"triggered": time.strftime("%a, %d %H:%M", time.localtime(e["triggered"]))}) for e in sorted_events]
+    [e.update({"triggered": time.strftime("%a, %d %H:%M", time.localtime(e["triggered"]))}) for e in sorted_events if
+     e["triggered"] != 0]
+    [e.update({"triggered": "Never seen 'OK'"}) for e in sorted_events if e["triggered"] == 0]
 
     return jsonify(sorted_events)
 

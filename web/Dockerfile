@@ -6,4 +6,4 @@ RUN yarn --no-lockfile
 COPY ./ /code/
 RUN yarn build
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["serve", "-s", "build"]

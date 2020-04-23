@@ -23,7 +23,7 @@ def get_prometheus_events():
         'severity': get_path(event, 'labels', 'severity'),
         'message': truncate_string(get_path(event, 'annotations', 'message')),
         'triggered': local_to_epoch_time(event['activeAt']),
-        "source": "SDP-AKS"
+        "source": "Prometheus"
     } for event in filtered]
 
     return events
