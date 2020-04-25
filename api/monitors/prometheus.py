@@ -1,6 +1,7 @@
 import requests
 
 from config import Config
+from loggers.loki import get_container_logs
 from utils import dead_mans_switch, get_path, local_to_epoch_time, truncate_string
 
 ignore_alert_list = Config.ignore_alert_list
@@ -10,6 +11,7 @@ def get_prometheus_events():
     try:
         request = requests.get(url=Config.prometheus_api)
         data = request.json()
+        # data = json.loads(Config.prom_test_data)
     except Exception as e:
         print(f'Fatal: Could not GET prometheus API {Config.prometheus_api}. Error: {e}')
         return dead_mans_switch("Prometheus events", Config.prometheus_api, e)
@@ -23,7 +25,8 @@ def get_prometheus_events():
         'severity': get_path(event, 'labels', 'severity'),
         'message': truncate_string(get_path(event, 'annotations', 'message')),
         'triggered': local_to_epoch_time(event['activeAt']),
-        "source": "Prometheus"
+        "source": "Prometheus",
+        "logs": get_container_logs(event["labels"]["pod"]) if event["labels"].get("pod") else ["No logs..."]
     } for event in filtered]
 
     return events

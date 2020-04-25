@@ -108,6 +108,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    document.title = "Aware monitoring"
     this.refetchData();
     this.interval = setInterval(() => this.refetchData(), 30000);
   }

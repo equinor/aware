@@ -3,16 +3,15 @@ services:
 
   nginx:
     restart: unless-stopped
-    depends_on:
-      - api
-      - web
     build: proxy
     ports:
       - "80:80"
-#      - "3001:80"
 
   api:
     restart: unless-stopped
+    depends_on:
+      - nginx
+      - web
     build: api
     container_name: aware
     image: sdpequinor/aware-api:latest
@@ -21,13 +20,13 @@ services:
     environment:
         DEPLOYMENT_NAME: "Local"
         FLASK_DEBUG: "True"
-#         PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
-#        PROMETHEUS_API: "https://aware.dev.sdpaks.equinor.com/api/prometheus"
-        SENSU_API: "https://sensu-api.sdpaks.equinor.com/api/core/v2/namespaces/default/events"
+        PROMETHEUS_API: "http://prometheus-operator-prometheus.monitoring:9090/api/v1/alerts"
+        LOKI_API: "https://loki.dev.sdpaks.equinor.com/loki/api/v1/query_range"
+#        SENSU_API: "https://sensu-api.sdpaks.equinor.com/api/core/v2/namespaces/default/events"
 #        IMPORT_URLS: "https://aware.sdpaks.equinor.com/api/exports"
-        # IMPORT_URLS: "https://aware.sdpaks.equinor.com/api/exports;https://aware.dev.sdpaks.equinor.com/api/exports"
         SENSU_KEY: ${SENSU_KEY}
 #        EXPORT_SECRET: ${EXPORT_SECRET}
+        LOKI_PASSWD: ${LOKI_PASSWD}
 #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown,Watchdog"
 
   web:
