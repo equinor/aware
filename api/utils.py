@@ -32,6 +32,7 @@ def local_to_epoch_time(local_string) -> int:
     timestamp = (utc_dt - datetime(1970, 1, 1)).total_seconds()
     return int(timestamp)
 
+
 def truncate_string(string, length = 120) -> str:
     if not string:
         return ""

@@ -34,6 +34,7 @@ def get_sensu_events() -> List[Dict]:
         'severity': convert_severity(event["check"]["status"], event["check"].get("silenced")),
         'message': truncate_string(event["check"]["output"]),
         'triggered': int(event["check"]["last_ok"]),
+        'logs': [event["check"]["output"]],
         "source": "Sensu"
     } for event in not_passing_status]
 

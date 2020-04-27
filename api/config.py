@@ -12,10 +12,585 @@ class Config:
     prometheus_api = os.getenv('PROMETHEUS_API')
     sensu_api = os.getenv('SENSU_API')
     sensu_key = os.getenv("SENSU_KEY")
+    loki_api = os.getenv("LOKI_API")
+    loki_passwd = os.getenv("LOKI_PASSWD")
 
+    loki_test_data = '''
+    {
+  "status": "success",
+  "data": {
+    "resultType": "streams",
+    "result": [
+      {
+        "stream": {
+          "app": "flux",
+          "instance": "flux-7b84c5d7df-j64qn",
+          "namespace": "flux",
+          "pod_template_hash": "7b84c5d7df",
+          "container_name": "flux",
+          "filename": "/var/log/pods/flux_flux-7b84c5d7df-j64qn_7366e10a-5a22-4ece-8398-2b000f47cd1d/flux/5.log",
+          "job": "flux/flux",
+          "release": "flux",
+          "stream": "stderr"
+        },
+        "values": [
+          [
+            "1587833708884081586",
+            "ts=2020-04-25T16:55:08.883958078Z caller=loop.go:145 component=sync-loop jobID=9fb6145c-4158-926d-e3bb-e8667b04a759 state=done success=false err=applying changes: updating resource velero:helmrelease/velero in dev/../.flux.yaml: no update.containerImage commands to run in ../.flux.yaml (from path dev)'"
+          ],
+          [
+            "1587833708869406048",
+            "ts=2020-04-25T16:55:08.869308241Z caller=releaser.go:59 component=sync-loop jobID=9fb6145c-4158-926d-e3bb-e8667b04a759 type=release updates=1"
+          ],
+          [
+            "1587833708535056961",
+            "ts=2020-04-25T16:55:08.534993957Z caller=loop.go:135 component=sync-loop jobID=9fb6145c-4158-926d-e3bb-e8667b04a759 state=in-progress"
+          ],
+          [
+            "1587833708534462423",
+            "ts=2020-04-25T16:55:08.534396319Z caller=images.go:106 component=sync-loop workload=monitoring:deployment/gitlabstats container=gitlabstats repo=sdpequinor/gitlabstats pattern=glob:* current=sdpequinor/gitlabstats warning='image with zero created timestamp' current='sdpequinor/gitlabstats (0001-01-01 00:00:00 +0000 UTC)' latest='sdpequinor/gitlabstats:2.0 (2020-03-23 15:14:22.401018521 +0000 UTC)' action='skip container'"
+          ],
+          [
+            "1587833708534363917",
+            "ts=2020-04-25T16:55:08.534237408Z caller=images.go:111 component=sync-loop workload=velero:helmrelease/velero container=chart-image repo=velero/velero pattern=glob:* current=velero/velero:v1.2.0 info='added update to automation run' new=velero/velero:master reason='latest master (2020-04-24 21:53:23.793795002 +0000 UTC) > current v1.2.0 (2019-11-07 18:52:42.269305557 +0000 UTC)'"
+          ],
+          [
+            "1587833708127984822",
+            "ts=2020-04-25T16:55:08.127901717Z caller=images.go:17 component=sync-loop msg='polling for new images for automated workloads'"
+          ],
+          [
+            "1587833708124976930",
+            "ts=2020-04-25T16:55:08.124874323Z caller=warming.go:206 component=warmer updated=grafana/loki successful=0 attempted=119"
+          ],
+          [
+            "1587833708124960929",
+            "ts=2020-04-25T16:55:08.12481292Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707946014883",
+            "ts=2020-04-25T16:55:07.945850972Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707880920019",
+            "ts=2020-04-25T16:55:07.880758409Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707740959466",
+            "ts=2020-04-25T16:55:07.740847559Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707708207071",
+            "ts=2020-04-25T16:55:07.704953963Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707708195271",
+            "ts=2020-04-25T16:55:07.702114582Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707698961480",
+            "ts=2020-04-25T16:55:07.698871774Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707695729773",
+            "ts=2020-04-25T16:55:07.695657869Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707694439091",
+            "ts=2020-04-25T16:55:07.694380887Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707694268780",
+            "ts=2020-04-25T16:55:07.694144872Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707690540041",
+            "ts=2020-04-25T16:55:07.690451536Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707690528240",
+            "ts=2020-04-25T16:55:07.690323327Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ],
+          [
+            "1587833707688025080",
+            "ts=2020-04-25T16:55:07.687962376Z caller=repocachemanager.go:223 component=warmer canonical_name=index.docker.io/grafana/loki auth={map[]} warn='manifest for tag master-fc6c5c0 missing in repository grafana/loki' impact='flux will fail to auto-release workloads with matching images, ask the repository administrator to fix the inconsistency'"
+          ]
+        ]
+      }
+    ],
+    "stats": {
+      "summary": {
+        "bytesProcessedPerSeconds": 89274746,
+        "linesProcessedPerSeconds": 360829,
+        "totalBytesProcessed": 246673,
+        "totalLinesProcessed": 997,
+        "execTime": 0.002763077
+      },
+      "store": {
+        "totalChunksRef": 0,
+        "totalChunksDownloaded": 0,
+        "chunksDownloadTime": 0,
+        "headChunkBytes": 0,
+        "headChunkLines": 0,
+        "decompressedBytes": 0,
+        "decompressedLines": 0,
+        "compressedBytes": 0,
+        "totalDuplicates": 0
+      },
+      "ingester": {
+        "totalReached": 1,
+        "totalChunksMatched": 3,
+        "totalBatches": 1,
+        "totalLinesSent": 20,
+        "headChunkBytes": 246673,
+        "headChunkLines": 997,
+        "decompressedBytes": 0,
+        "decompressedLines": 0,
+        "compressedBytes": 0,
+        "totalDuplicates": 0
+      }
+    }
+  }
+}
+'''
 
-    mockdata2 = r'''{"status":"success","data":{"alerts":[{"labels":{"alertname":"Watchdog","severity":"none"},"annotations":{"message":"This is an alert meant to ensure that the entire alerting pipeline is functional.This alert is always firing, therefore it should always be firing in Alertmanagerand always fire against a receiver. There are integrations with various notificationmechanisms that send a notification when this alert is not firing. For example the\"DeadMansSnitch\" integration in PagerDuty."},"state":"firing","activeAt":"2019-04-07T05:52:15.470372903Z","value":1}]}}
+    prom_test_data = '''
+    {
+  "status": "success",
+  "data": {
+    "alerts": [
+      {
+        "labels": {
+          "alertname": "KubeControllerManagerDown",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "KubeControllerManager has disappeared from Prometheus target discovery.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontrollermanagerdown"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:32.974571279Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "TargetDown",
+          "job": "kube-dns",
+          "namespace": "kube-system",
+          "service": "prometheus-operator-kube-dns",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "100% of the kube-dns targets in kube-system namespace are down."
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:15.470372903Z",
+        "value": "1e+02"
+      },
+      {
+        "labels": {
+          "alertname": "Watchdog",
+          "severity": "none"
+        },
+        "annotations": {
+          "message": "This is an alert meant to ensure that the entire alerting pipeline is functional.This alert is always firing, therefore it should always be firing in Alertmanagerand always fire against a receiver. There are integrations with various notificationmechanisms that send a notification when this alert is not firing. For example theDeadMansSnitch integration in PagerDuty."
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:15.470372903Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "CPUThrottlingHigh",
+          "container": "aware-api",
+          "namespace": "aware",
+          "pod": "aware-api-b44865769-pn27d",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "43.8% throttling of CPU in namespace aware for container aware-api in pod aware-api-b44865769-pn27d.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:24:34.559334876Z",
+        "value": "4.3795620437956206e-01"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodCrashLooping",
+          "container": "gitlab-gitlab-runner",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "gitlab-gitlab-runner-5f5544b9fb-xlngz",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-gitlab-runner-5f5544b9fb-xlngz (gitlab-gitlab-runner) is restarting 0.69 times / 5 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:12:17.743318242Z",
+        "value": "6.896543797076095e-01"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodCrashLooping",
+          "container": "registry",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "gitlab-registry-775b8f7b64-l6xdf",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-registry-775b8f7b64-l6xdf (registry) is restarting 1.03 times / 5 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:47.743318242Z",
+        "value": "1.0344815695614142e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodCrashLooping",
+          "container": "registry",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "gitlab-registry-775b8f7b64-qcndk",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-registry-775b8f7b64-qcndk (registry) is restarting 1.03 times / 5 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:47.743318242Z",
+        "value": "1.0344815695614142e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodCrashLooping",
+          "container": "minio",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "gitlab-minio-5b6bbbcd65-m6bzq",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-minio-5b6bbbcd65-m6bzq (minio) is restarting 1.38 times / 5 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:11:17.743318242Z",
+        "value": "1.379308759415219e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodCrashLooping",
+          "container": "velero",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "velero",
+          "pod": "velero-67677dd9fc-hgssv",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod velero/velero-67677dd9fc-hgssv (velero) is restarting 0.69 times / 5 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T23:40:47.743318242Z",
+        "value": "6.896543797076095e-01"
+      },
+      {
+        "labels": {
+          "alertname": "KubePodNotReady",
+          "namespace": "aware",
+          "pod": "aware-web-7c697c4857-jl7mc",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Pod aware/aware-web-7c697c4857-jl7mc has been in a non-ready state for longer than 15 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-26T08:51:47.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeDeploymentReplicasMismatch",
+          "deployment": "gitlab-gitlab-runner",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Deployment gitlab/gitlab-gitlab-runner has not matched the expected number of replicas for longer than 15 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:15:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeDeploymentReplicasMismatch",
+          "deployment": "gitlab-minio",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Deployment gitlab/gitlab-minio has not matched the expected number of replicas for longer than 15 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:23:47.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeDeploymentReplicasMismatch",
+          "deployment": "velero",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "velero",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Deployment velero/velero has not matched the expected number of replicas for longer than 15 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:09:47.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeDeploymentReplicasMismatch",
+          "deployment": "gitlab-registry",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "namespace": "gitlab",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "Deployment gitlab/gitlab-registry has not matched the expected number of replicas for longer than 15 minutes.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:17.743318242Z",
+        "value": "2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "velero",
+          "namespace": "velero",
+          "pod": "velero-67677dd9fc-hgssv",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod velero/velero-67677dd9fc-hgssv container velero has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:20:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "aware-web",
+          "namespace": "aware",
+          "pod": "aware-web-7c697c4857-jl7mc",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod aware/aware-web-7c697c4857-jl7mc container aware-web has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T08:51:47.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "minio",
+          "namespace": "gitlab",
+          "pod": "gitlab-minio-5b6bbbcd65-m6bzq",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-minio-5b6bbbcd65-m6bzq container minio has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:23:47.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "registry",
+          "namespace": "gitlab",
+          "pod": "gitlab-registry-775b8f7b64-l6xdf",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-registry-775b8f7b64-l6xdf container registry has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:08:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "gitlab-gitlab-runner",
+          "namespace": "gitlab",
+          "pod": "gitlab-gitlab-runner-5f5544b9fb-xlngz",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-gitlab-runner-5f5544b9fb-xlngz container gitlab-gitlab-runner has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:23:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeContainerWaiting",
+          "container": "registry",
+          "namespace": "gitlab",
+          "pod": "gitlab-registry-775b8f7b64-qcndk",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Pod gitlab/gitlab-registry-775b8f7b64-qcndk container registry has been in waiting state for longer than 1 hour.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting"
+        },
+        "state": "pending",
+        "activeAt": "2020-04-26T09:12:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeJobCompletion",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "job_name": "gitlab-migrations.2",
+          "namespace": "gitlab",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Job gitlab/gitlab-migrations.2 is taking more than one hour to complete.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobcompletion"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeJobFailed",
+          "condition": "true",
+          "endpoint": "http",
+          "instance": "10.100.2.33:8080",
+          "job": "kube-state-metrics",
+          "job_name": "gitlab-migrations.2",
+          "namespace": "gitlab",
+          "pod": "prometheus-operator-kube-state-metrics-8467c5bdbc-jwqpg",
+          "service": "prometheus-operator-kube-state-metrics",
+          "severity": "warning"
+        },
+        "annotations": {
+          "message": "Job gitlab/gitlab-migrations.2 failed to complete.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:17.743318242Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "CoreDNSDown",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "CoreDNS has disappeared from Prometheus target discovery.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-corednsdown"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:22.392757395Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeControllerManagerDown",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "KubeControllerManager has disappeared from Prometheus target discovery.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontrollermanagerdown"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:22.392757395Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "KubeSchedulerDown",
+          "severity": "critical"
+        },
+        "annotations": {
+          "message": "KubeScheduler has disappeared from Prometheus target discovery.",
+          "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeschedulerdown"
+        },
+        "state": "firing",
+        "activeAt": "2020-04-20T09:10:22.392757395Z",
+        "value": "1e+00"
+      }
+    ]
+  }
+}
+
     '''
+    
     mock_data = '''
     {"status":"success","data":{"alerts":[{"labels":{"alertname":"TargetDown","job":"apiserver","severity":"warning"},"annotations":{"message":"100% of the apiserver targets are down."},"state":"firing","activeAt":"2019-03-14T01:12:15.470372903Z","value":100},{"labels":{"alertname":"TargetDown","job":"kube-dns","severity":"warning"},"annotations":{"message":"100% of the kube-dns targets are down."},"state":"firing","activeAt":"2019-03-14T01:12:15.470372903Z","value":100},{"labels":{"alertname":"DeadMansSwitch","severity":"none"},"annotations":{"message":"This is a DeadMansSwitch meant to ensure that the entire alerting pipeline is functional."},"state":"firing","activeAt":"2019-03-14T01:12:15.470372903Z","value":1},{"labels":{"alertname":"KubePodCrashLooping","container":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"filebeat-hllqh","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Pod monitoring/filebeat-hllqh (filebeat) is restarting 0.00 times / second.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"},"state":"firing","activeAt":"2019-03-14T01:14:49.362790506Z","value":0.003448275862068966},{"labels":{"alertname":"KubePodCrashLooping","container":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"filebeat-bg5hb","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Pod monitoring/filebeat-bg5hb (filebeat) is restarting 0.00 times / second.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"},"state":"firing","activeAt":"2019-03-14T01:15:19.362790506Z","value":0.0022988505747126436},{"labels":{"alertname":"KubePodNotReady","namespace":"kube-system","pod":"oauth2-proxy-ks-6b9dd85456-s6dsg","severity":"critical"},"annotations":{"message":"Pod kube-system/oauth2-proxy-ks-6b9dd85456-s6dsg has been in a non-ready state for longer than an hour.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready"},"state":"firing","activeAt":"2019-03-14T01:12:49.362790506Z","value":1},{"labels":{"alertname":"KubeDeploymentReplicasMismatch","deployment":"oauth2-proxy-ks","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"kube-system","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Deployment kube-system/oauth2-proxy-ks has not matched the expected number of replicas for longer than an hour.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"},"state":"firing","activeAt":"2019-03-14T01:12:49.362790506Z","value":1},{"labels":{"alertname":"KubeDaemonSetRolloutStuck","daemonset":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Only 0% of the desired Pods of DaemonSet monitoring/filebeat are scheduled and ready.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetrolloutstuck"},"state":"firing","activeAt":"2019-03-14T01:12:49.362790506Z","value":0},{"labels":{"alertname":"KubeJobCompletion","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","job_name":"elasticsearch-curator-1552611600","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"warning"},"annotations":{"message":"Job monitoring/elasticsearch-curator-1552611600 is taking more than one hour to complete.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobcompletion"},"state":"firing","activeAt":"2019-03-15T01:00:49.362790506Z","value":1},{"labels":{"alertname":"KubeJobFailed","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","job_name":"elasticsearch-curator-1552611600","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"warning"},"annotations":{"message":"Job monitoring/elasticsearch-curator-1552611600 failed to complete.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed"},"state":"firing","activeAt":"2019-03-15T01:00:49.362790506Z","value":6},{"labels":{"alertname":"CPUThrottlingHigh","container_name":"config-reloader","namespace":"monitoring","pod_name":"alertmanager-prometheus-operator-alertmanager-0","severity":"warning"},"annotations":{"message":"33% throttling of CPU in namespace monitoring for container config-reloader in pod alertmanager-prometheus-operator-alertmanager-0.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh"},"state":"firing","activeAt":"2019-03-15T11:07:34.559334876Z","value":33.333333333333336},{"labels":{"alertname":"CPUThrottlingHigh","container_name":"rules-configmap-reloader","namespace":"monitoring","pod_name":"prometheus-prometheus-operator-prometheus-0","severity":"warning"},"annotations":{"message":"33% throttling of CPU in namespace monitoring for container rules-configmap-reloader in pod prometheus-prometheus-operator-prometheus-0.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh"},"state":"pending","activeAt":"2019-03-15T11:12:34.559334876Z","value":33.333333333333336},{"labels":{"alertname":"CPUThrottlingHigh","container_name":"prometheus-config-reloader","namespace":"monitoring","pod_name":"prometheus-prometheus-operator-prometheus-0","severity":"warning"},"annotations":{"message":"33% throttling of CPU in namespace monitoring for container prometheus-config-reloader in pod prometheus-prometheus-operator-prometheus-0.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh"},"state":"firing","activeAt":"2019-03-15T10:56:34.559334876Z","value":33.333333333333336},{"labels":{"alertname":"CPUThrottlingHigh","container_name":"heapster-nanny","namespace":"kube-system","pod_name":"heapster-5fb7488d97-l5mtl","severity":"warning"},"annotations":{"message":"25% throttling of CPU in namespace kube-system for container heapster-nanny in pod heapster-5fb7488d97-l5mtl.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh"},"state":"pending","activeAt":"2019-03-15T11:25:34.559334876Z","value":25.2},{"labels":{"alertname":"KubeAPIDown","severity":"critical"},"annotations":{"message":"KubeAPI has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapidown"},"state":"firing","activeAt":"2019-03-14T01:12:24.667662181Z","value":1},{"labels":{"alertname":"KubeControllerManagerDown","severity":"critical"},"annotations":{"message":"KubeControllerManager has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontrollermanagerdown"},"state":"firing","activeAt":"2019-03-14T01:12:24.667662181Z","value":1},{"labels":{"alertname":"KubeSchedulerDown","severity":"critical"},"annotations":{"message":"KubeScheduler has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeschedulerdown"},"state":"firing","activeAt":"2019-03-14T01:12:24.667662181Z","value":1},{"labels":{"alertname":"TargetDown","job":"apiserver","severity":"warning"},"annotations":{"description":"100% of apiserver targets are down.","summary":"Targets are down"},"state":"firing","activeAt":"2019-03-14T01:12:08.503964295Z","value":100},{"labels":{"alertname":"TargetDown","job":"kube-dns","severity":"warning"},"annotations":{"description":"100% of kube-dns targets are down.","summary":"Targets are down"},"state":"firing","activeAt":"2019-03-14T01:12:08.503964295Z","value":100},{"labels":{"alertname":"DeadMansSwitch","severity":"none"},"annotations":{"description":"This is a DeadMansSwitch meant to ensure that the entire Alerting pipeline is functional.","summary":"Alerting DeadMansSwitch"},"state":"firing","activeAt":"2019-03-14T01:12:08.503964295Z","value":1},{"labels":{"alertname":"CoreDNSDown","severity":"critical"},"annotations":{"message":"CoreDNS has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-corednsdown"},"state":"firing","activeAt":"2019-03-14T01:12:22.392757395Z","value":1},{"labels":{"alertname":"KubeAPIDown","severity":"critical"},"annotations":{"message":"KubeAPI has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapidown"},"state":"firing","activeAt":"2019-03-14T01:12:22.392757395Z","value":1},{"labels":{"alertname":"KubeControllerManagerDown","severity":"critical"},"annotations":{"message":"KubeControllerManager has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontrollermanagerdown"},"state":"firing","activeAt":"2019-03-14T01:12:22.392757395Z","value":1},{"labels":{"alertname":"KubeSchedulerDown","severity":"critical"},"annotations":{"message":"KubeScheduler has disappeared from Prometheus target discovery.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeschedulerdown"},"state":"firing","activeAt":"2019-03-14T01:12:22.392757395Z","value":1},{"labels":{"alertname":"KubePodCrashLooping","container":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"filebeat-hllqh","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Pod monitoring/filebeat-hllqh (filebeat) is restarting 1.03 times / 5 minutes.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"},"state":"firing","activeAt":"2019-03-14T01:14:47.743318242Z","value":1.0344827586206897},{"labels":{"alertname":"KubePodCrashLooping","container":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"filebeat-bg5hb","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Pod monitoring/filebeat-bg5hb (filebeat) is restarting 0.69 times / 5 minutes.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"},"state":"firing","activeAt":"2019-03-14T01:15:17.743318242Z","value":0.6896551724137931},{"labels":{"alertname":"KubePodNotReady","namespace":"kube-system","pod":"oauth2-proxy-ks-6b9dd85456-s6dsg","severity":"critical"},"annotations":{"message":"Pod kube-system/oauth2-proxy-ks-6b9dd85456-s6dsg has been in a non-ready state for longer than an hour.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready"},"state":"firing","activeAt":"2019-03-14T01:12:47.743318242Z","value":1},{"labels":{"alertname":"KubeDeploymentReplicasMismatch","deployment":"oauth2-proxy-ks","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"kube-system","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Deployment kube-system/oauth2-proxy-ks has not matched the expected number of replicas for longer than an hour.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"},"state":"firing","activeAt":"2019-03-14T01:12:47.743318242Z","value":1},{"labels":{"alertname":"KubeDaemonSetRolloutStuck","daemonset":"filebeat","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"critical"},"annotations":{"message":"Only 0% of the desired Pods of DaemonSet monitoring/filebeat are scheduled and ready.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetrolloutstuck"},"state":"firing","activeAt":"2019-03-14T01:12:47.743318242Z","value":0},{"labels":{"alertname":"KubeJobCompletion","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","job_name":"elasticsearch-curator-1552611600","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"warning"},"annotations":{"message":"Job monitoring/elasticsearch-curator-1552611600 is taking more than one hour to complete.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobcompletion"},"state":"firing","activeAt":"2019-03-15T01:00:47.743318242Z","value":1},{"labels":{"alertname":"KubeJobFailed","endpoint":"http","instance":"10.244.1.78:8080","job":"kube-state-metrics","job_name":"elasticsearch-curator-1552611600","namespace":"monitoring","pod":"prometheus-operator-kube-state-metrics-54c7c9fd77-m49s4","service":"prometheus-operator-kube-state-metrics","severity":"warning"},"annotations":{"message":"Job monitoring/elasticsearch-curator-1552611600 failed to complete.","runbook_url":"https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed"},"state":"firing","activeAt":"2019-03-15T01:00:47.743318242Z","value":6}]}}
 '''
