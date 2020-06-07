@@ -103,7 +103,6 @@ function EventRow({event}) {
   )
 }
 
-
 function EventContainer({ events }) {
   return events.length === 0 ? (
       <NoEventsContainer>

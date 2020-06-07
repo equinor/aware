@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import EventContainer from './EventContainer';
 import axios from 'axios';
 
 function getMostSevereAlert(events) {
-  let mostSever = 'ok';
-  if (events.some(event => event.severity === 'none')) {
-    mostSever = 'none';
+  if (events.some((event) => event.severity === 'critical')) {
+    return 'critical';
   }
-  if (events.some(event => event.severity === 'warning')) {
-    mostSever = 'warning';
+  if (events.some((event) => event.severity === 'warning')) {
+    return 'warning';
   }
-  if (events.some(event => event.severity === 'critical')) {
-    mostSever = 'critical';
+  if (events.some((event) => event.severity === 'none')) {
+    return 'none';
   }
-  return mostSever;
+  return 'ok';
 }
 
 function getBackgroundColor(events) {
@@ -44,7 +43,7 @@ const Header = styled.h1`
 `;
 
 const AppContainer = styled.div`
-  background: ${props => props.backgroundColor};
+  background: ${(props) => props.backgroundColor};
   margin: 0px;
   width: 100%;
   height: 100%;
@@ -62,10 +61,7 @@ function CouldNotFetch({ lastSuccessfulFetch }) {
   let lastFetch;
   if (lastSuccessfulFetch) {
     const temp_string = lastSuccessfulFetch.toString();
-    lastFetch = temp_string
-      .split(' ')
-      .splice(0, 5)
-      .join(' ');
+    lastFetch = temp_string.split(' ').splice(0, 5).join(' ');
   } else {
     lastFetch = 'none';
   }
@@ -77,66 +73,45 @@ function CouldNotFetch({ lastSuccessfulFetch }) {
   );
 }
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      events: []
-    };
-  }
+export default () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [backgroundColor, setBackgroundColor] = useState('white');
+  const [lastSuccessfulFetch, setLastSuccessfulFetch] = useState(null);
+  const [interval, setInterval] = useState(null);
 
-  refetchData() {
+  function refetchData() {
     axios
       .get(`/api/events`)
-      .then(response => {
-        this.setState({
-          isLoaded: true,
-          events: response.data,
-          backgroundColor: getBackgroundColor(response.data),
-          lastSuccessfulFetch: new Date(),
-          error: null
-        });
+      .then((response) => {
+        setLoading(false);
+        setEvents(response.data);
+        setBackgroundColor(getBackgroundColor(response.data));
+        setLastSuccessfulFetch(new Date());
       })
-      .catch(error => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
+      .catch((error) => {
+        setLoading(false);
+        setError(error);
       });
   }
 
-  componentDidMount() {
-    document.title = "Aware monitoring"
-    this.refetchData();
-    this.interval = setInterval(() => this.refetchData(), 30000);
-  }
+  useEffect(() => {
+    document.title = 'Aware monitoring';
+    refetchData();
+    setInterval(setInterval(() => refetchData(), 30000));
+    return () => clearInterval(interval);
+  },[])
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  if (loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <AppContainer backgroundColor={backgroundColor}>
+        <Header>{window.location.host}</Header>
+        {error && <CouldNotFetch lastSuccessfulFetch={lastSuccessfulFetch} />}
+        <EventContainer events={events} />
+      </AppContainer>
+    );
   }
-
-  render() {
-    const {
-      error,
-      isLoaded,
-      events,
-      backgroundColor,
-      lastSuccessfulFetch
-    } = this.state;
-    if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <AppContainer backgroundColor={backgroundColor}>
-          <Header>{window.location.host}</Header>
-          {error && <CouldNotFetch lastSuccessfulFetch={lastSuccessfulFetch} />}
-          <EventContainer events={events} />
-        </AppContainer>
-      );
-    }
-  }
-}
-
-export default App;
+};
