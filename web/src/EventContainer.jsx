@@ -18,7 +18,7 @@ function getBackgroundColor(severity) {
     case 'critical':
       return '#ed1f28'
     default:
-      return 'white'
+      return 'lightslategray'
   }
 }
 
