@@ -21,6 +21,7 @@ def get_sensu_events() -> List[Dict]:
     headers = {"AUTHORIZATION": f"Key {Config.sensu_key}"}
     try:
         request = requests.get(url=Config.sensu_api, headers=headers)
+        request.raise_for_status()
         data = request.json()
     except Exception as e:
         print(f"Fatal: Could not GET Sensu API {Config.sensu_api}. Error: {e}")

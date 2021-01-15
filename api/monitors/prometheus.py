@@ -10,6 +10,7 @@ ignore_alert_list = Config.ignore_alert_list
 def get_prometheus_events():
     try:
         request = requests.get(url=Config.prometheus_api)
+        request.raise_for_status()
         data = request.json()
         # data = json.loads(Config.prom_test_data)
     except Exception as e:
