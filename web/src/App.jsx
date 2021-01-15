@@ -10,9 +10,6 @@ function getMostSevereAlert(events) {
   if (events.some((event) => event.severity === 'warning')) {
     return 'warning';
   }
-  if (events.some((event) => event.severity === 'none')) {
-    return 'none';
-  }
   return 'ok';
 }
 
@@ -38,13 +35,13 @@ function getBackgroundColor(events) {
 }
 
 const Header = styled.h1`
-  margin: 0px;
+  margin: 0;
   padding: 20px;
 `;
 
 const AppContainer = styled.div`
   background: ${(props) => props.backgroundColor};
-  margin: 0px;
+  margin: 0;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -54,7 +51,7 @@ const AppContainer = styled.div`
 `;
 
 const P = styled.p`
-  margin: 0px;
+  margin: 0;
 `;
 
 function CouldNotFetch({ lastSuccessfulFetch }) {
