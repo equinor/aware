@@ -20,14 +20,20 @@ def get_prometheus_events():
     filtered = [alert for alert in data['data']['alerts']
                 if alert['labels']['alertname'] not in ignore_alert_list]
 
-    events = [{
-        'alertname': get_path(event, 'labels', 'alertname'),
-        'namespace': get_path(event, 'labels', 'namespace'),
-        'severity': get_path(event, 'labels', 'severity'),
-        'message': truncate_string(get_path(event, 'annotations', 'message')),
-        'triggered': local_to_epoch_time(event['activeAt']),
-        "source": "Prometheus",
-        "logs": get_container_logs(event["labels"]["pod"]) if event["labels"].get("pod") else ["No logs..."]
-    } for event in filtered]
+    events = []
+    for event in filtered:
+        annotation = event.get("annotations")
+        message = annotation.get("message") if "message" in annotation else annotation.get("description")
+        pod = event["labels"].get("pod")
+        logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs..."]
+        events.append({
+            'alertname': get_path(event, 'labels', 'alertname'),
+            'namespace': get_path(event, 'labels', 'namespace'),
+            'severity': get_path(event, 'labels', 'severity'),
+            'message': truncate_string(message),
+            'triggered': local_to_epoch_time(event['activeAt']),
+            "source": "Prometheus",
+            "logs": logs
+        })
 
     return events
