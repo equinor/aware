@@ -40,11 +40,6 @@ const Header = styled.h1`
 `;
 
 const AppContainer = styled.div`
-  background: ${(props) => props.backgroundColor};
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,6 +98,7 @@ export default () => {
   if (loading) {
     return <div>Loading...</div>;
   } else {
+    document.body.style.backgroundColor = backgroundColor
     return (
       <AppContainer backgroundColor={backgroundColor}>
         <Header>{window.location.host}</Header>

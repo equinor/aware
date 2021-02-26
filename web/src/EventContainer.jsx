@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
+import EventContainerMobileView from './EventContainerMobileView';
 const NoEventsContainer = styled.div`
   display: flex;
   height: 100%;
   align-items: center;
 `
 
-function getBackgroundColor(severity) {
+export function getBackgroundColor(severity) {
   switch (severity) {
     case 'none':
       return '#00b7bf'
@@ -22,14 +22,22 @@ function getBackgroundColor(severity) {
   }
 }
 
-const TH = styled.th`
+export const TH = styled.th`
   border: 1px solid black;
   padding: 15px;
   color: white;
   background: black;
 `
 
-const THTriggered = styled.th`
+const THMSG = styled.th`
+  border: 1px solid black;
+  padding: 15px;
+  color: white;
+  background: black;
+  width: 50%;
+`
+
+export const THTriggered = styled.th`
   min-width: 85px;
   border: 1px solid black;
   padding: 15px;
@@ -38,25 +46,37 @@ const THTriggered = styled.th`
 `
 
 const TABLE = styled.table`
-  width: 90%;
-  margin: auto;
+  border: 0;
   border-collapse: collapse;
-  border-spacing: 0;
+  margin: auto  ;
+  padding: 0;
+  width: 90%;
+  align: center;
+  table-layout: fixed;
+`
+
+const THEAD = styled.thead`
+display: table-header-group;
 `
 
 const TR = styled.tr`
+  display: table-row;
+  padding: 1em 1em .5em;
   border: 1px solid black;
   font-size: 1em;
   background: ${props => getBackgroundColor(props.background)};
 `
 
 const TD = styled.td`
+  display: table-cell;
+  text-wrap: normal;
+  word-wrap: break-word;
   font-size: 1em;
   padding: 5px;
   border: 1px solid black;
   text-align: left;
 `
-const LogLine = styled.div`
+export const LogLine = styled.div`
   padding-left: 15px;
   font-size: 1em;
   font-family: monospace;
@@ -71,6 +91,31 @@ const LogContainer = styled.td`
   max-width: 200px;
   overflow: auto;
 `
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
 
 function EventRow({event}) {
   const [logsVisible, setLogsVisible] = useState(false)
@@ -104,27 +149,34 @@ function EventRow({event}) {
 }
 
 function EventContainer({ events }) {
+  const { height, width } = useWindowDimensions();
+
   return events.length === 0 ? (
       <NoEventsContainer>
         <h2>Everything is probably alright</h2>
       </NoEventsContainer>
-  ) : (
-      <div style={{ overflow: 'auto' }}>
+  ) : ( 
+      width > 1000 ?
+      (<div style={{ overflow: 'auto' }}>
         <TABLE>
+          <THEAD>
+            <TR>
+              <TH>Alertname</TH>
+              <TH>Namespace/Host</TH>
+              <TH>Source</TH>
+              <THMSG>Message</THMSG>
+              <THTriggered>Triggered</THTriggered>
+            </TR>
+          </THEAD>
           <tbody>
-          <TR>
-            <TH>Alertname</TH>
-            <TH>Namespace/Host</TH>
-            <TH>Source</TH>
-            <TH>Message</TH>
-            <THTriggered>Triggered</THTriggered>
-          </TR>
           {events.map(event => (
               <EventRow event={event}/>
           ))}
           </tbody>
         </TABLE>
-      </div>
+      </div>)
+      :
+      (<div> <EventContainerMobileView events={events} /></div>)
   )
 }
 
