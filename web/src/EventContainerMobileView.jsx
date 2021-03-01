@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+
 import {getBackgroundColor, LogLine, THTriggered, TH}  from './EventContainer'
+
 
 const TABLE = styled.table`
     border: 0;

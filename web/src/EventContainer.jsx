@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import EventContainerMobileView from './EventContainerMobileView';
+import "./style.css"
 const NoEventsContainer = styled.div`
   display: flex;
   height: 100%;
@@ -22,161 +22,65 @@ export function getBackgroundColor(severity) {
   }
 }
 
-export const TH = styled.th`
-  border: 1px solid black;
-  padding: 15px;
-  color: white;
-  background: black;
-`
-
-const THMSG = styled.th`
-  border: 1px solid black;
-  padding: 15px;
-  color: white;
-  background: black;
-  width: 50%;
-`
-
-export const THTriggered = styled.th`
-  min-width: 85px;
-  border: 1px solid black;
-  padding: 15px;
-  color: white;
-  background: black;
-`
-
-const TABLE = styled.table`
-  border: 0;
-  border-collapse: collapse;
-  margin: auto  ;
-  padding: 0;
-  width: 90%;
-  align: center;
-  table-layout: fixed;
-`
-
-const THEAD = styled.thead`
-display: table-header-group;
-`
-
-const TR = styled.tr`
-  display: table-row;
-  padding: 1em 1em .5em;
-  border: 1px solid black;
-  font-size: 1em;
-  background: ${props => getBackgroundColor(props.background)};
-`
-
-const TD = styled.td`
-  display: table-cell;
-  text-wrap: normal;
-  word-wrap: break-word;
-  font-size: 1em;
-  padding: 5px;
-  border: 1px solid black;
-  text-align: left;
-`
-export const LogLine = styled.div`
-  padding-left: 15px;
-  font-size: 1em;
-  font-family: monospace;
-  color: white;
-  &:hover {
-    background-color: #494444
-  }
-`
-
-const LogContainer = styled.td`
-  background-color: #131212;
-  max-width: 200px;
-  overflow: auto;
-`
-
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
 
 function EventRow({event}) {
   const [logsVisible, setLogsVisible] = useState(false)
+  const BG = getBackgroundColor(event.severity)
 
   return (
       <>
-        <TR
-            background={event.severity}
+        <tr 
             onClick={() => setLogsVisible(!logsVisible)}
-            style={{ cursor: "pointer"}}
+            style={{ cursor: "pointer", background: BG}}
         >
-          <TD>{event.alertname}</TD>
-          <TD>{event.namespace}</TD>
-          <TD>{event.source}</TD>
-          <TD>{event.message}</TD>
-          <TD>{event.triggered}</TD>
-        </TR>
-        <TR>
+        <td data-label="Alertname">{event.alertname}</td>
+        <td data-label="Namespace">{event.namespace}</td>
+        <td data-label="Source">{event.source}</td>
+        <td data-label="Message">{event.message}</td>
+        <td data-label="Triggered">{event.triggered}</td>
+        </tr>
+        {logsVisible ? <tr style={{background: BG, borderTop: 'none'}}>
           {logsVisible &&
-          <LogContainer colSpan={5}>
-            <div style={{ maxHeight: "600px" }}>
+          <td colSpan={5}>
+            <div className="logRow">
               {event.logs.map(line => (
-                  <LogLine>{line}</LogLine>
+                  <div>{line}</div>
               ))}
             </div>
-          </LogContainer>
+          </td>
           }
-        </TR>
+        </tr> : <div></div>}
+        
       </>
   )
 }
 
 function EventContainer({ events }) {
-  const { height, width } = useWindowDimensions();
-
   return events.length === 0 ? (
       <NoEventsContainer>
         <h2>Everything is probably alright</h2>
       </NoEventsContainer>
   ) : ( 
-      width > 1000 ?
-      (<div style={{ overflow: 'auto' }}>
-        <TABLE>
-          <THEAD>
-            <TR>
-              <TH>Alertname</TH>
-              <TH>Namespace/Host</TH>
-              <TH>Source</TH>
-              <THMSG>Message</THMSG>
-              <THTriggered>Triggered</THTriggered>
-            </TR>
-          </THEAD>
+      <div style={{ overflow: 'auto' }}>
+        <table>
+          <thead>
+            <tr id="eventContainer">
+              <th>Alertname</th>
+              <th>Namespace/Host</th>
+              <th>Source</th>
+              <th className="message">Message</th>
+              <th >Triggered</th>
+            </tr>
+          </thead>
           <tbody>
           {events.map(event => (
               <EventRow event={event}/>
           ))}
           </tbody>
-        </TABLE>
-      </div>)
-      :
-      (<div> <EventContainerMobileView events={events} /></div>)
+        </table>
+      </div>
+
+      
   )
 }
 
