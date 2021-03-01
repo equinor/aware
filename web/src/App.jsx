@@ -85,7 +85,7 @@ export default () => {
   } else {
     document.body.style.backgroundColor = backgroundColor
     return (
-      <div className="AppContainer" backgroundColor={backgroundColor}>
+      <div backgroundColor={backgroundColor}>
         <div className="Header">{window.location.host}</div>
         {error && <CouldNotFetch lastSuccessfulFetch={lastSuccessfulFetch} />}
         <EventContainer events={events} />
