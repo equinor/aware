@@ -1,107 +1,110 @@
 .Header {
-    margin: 0;
-    padding: 20px;
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
+  margin: 0;
+  padding: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 .LogContainer {
-    background-color: #131212;
-    width: 100%;
-    overflow: auto;
-    color: white;
+  background-color: #131212;
+  width: 100%;
+  overflow: auto;
+  color: white;
 }
 
 .message {
-    width: 40%;
+  width: 40%;
 }
 
 table {
-    border: 0;
-    border-collapse: collapse;
-    margin: auto;
-    padding: 0;
-    width: 90%;
-    table-layout: fixed;
+  border: 0;
+  border-collapse: collapse;
+  margin: auto;
+  padding: 0;
+  width: 90%;
+  table-layout: fixed;
 }
 
 tr {
-    display: table-row;
-    padding: 1em 1em .5em;
-    border: 1px solid black;
-    font-size: 1em;
+  display: table-row;
+  padding: 1em 1em 0.5em;
+  border: 1px solid black;
+  font-size: 1em;
 }
 
-
 td {
-    display: table-cell;
-    word-wrap: break-word;
-    font-size: 1em;
-    padding: 5px;
-    border: 1px solid black;
-    text-align: left;
+  display: table-cell;
+  word-wrap: break-word;
+  font-size: 1em;
+  padding: 5px;
+  border: 1px solid black;
+  text-align: left;
 }
 
 th {
-    border: 1px solid black;
-    padding: 15px;
-    color: white;
-    background: black;
+  border: 1px solid black;
+  padding: 15px;
+  color: white;
+  background: black;
 }
 
 .logRow {
-    background-color: #131212;
-    color: white;
-    max-height: 600px;
-    overflow: auto;
-    padding: 5px;
-    margin: -5px;
+  background-color: #131212;
+  color: white;
+  max-height: 600px;
+  overflow: auto;
+  padding: 5px;
+  margin: -5px;
 }
 
-
 @media screen and (max-width: 1000px) {
-    /* styling for mobile view */
+  /* styling for mobile view */
 
-    table, thead, tbody, th, td, tr {
-        display: block;
-        font-size: 12px;
-    }
-    
-    .logRow {
-        margin-left: -100%;
-        max-height: 300px;
-        overflow: auto;
-    }
-    
-    thead {
-        display: none;
-    }
-
-    td {
-        border: none;
-        position: relative;
-        padding-left: 50%;
-        min-height: 15px;
-    }
-
-    tr {
-        border-bottom: none;
-    }
-
-    td:before {
-        content: attr(data-label);
-        position: absolute;
-        top: 0;
-        left: 6px;
-        width: 30%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-    }
-
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+    font-size: 14px;
   }
+
+  .logRow {
+    margin-left: -100%;
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  thead {
+    display: none;
+  }
+
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    min-height: 15px;
+  }
+
+  tr {
+    border-bottom: none;
+  }
+
+  td:before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0;
+    left: 6px;
+    width: 30%;
+    padding-right: 10px;
+    padding-top: 5px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+}
