@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import "./style.css"
 const NoEventsContainer = styled.div`
@@ -29,7 +29,7 @@ function EventRow({event}) {
 
   return (
       <>
-        <tr 
+        <tr
             onClick={() => setLogsVisible(!logsVisible)}
             style={{ cursor: "pointer", background: BG}}
         >
@@ -50,7 +50,7 @@ function EventRow({event}) {
           </td>
           }
         </tr> : <div></div>}
-        
+
       </>
   )
 }
@@ -60,7 +60,7 @@ function EventContainer({ events }) {
       <NoEventsContainer>
         <h2>Everything is probably alright</h2>
       </NoEventsContainer>
-  ) : ( 
+  ) : (
       <div style={{ overflow: 'auto' }}>
         <table>
           <thead>
@@ -80,7 +80,7 @@ function EventContainer({ events }) {
         </table>
       </div>
 
-      
+
   )
 }
 

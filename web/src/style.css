@@ -54,6 +54,7 @@ th {
 }
 
 .logRow {
+  font-family: monospace;
   background-color: #131212;
   color: white;
   max-height: 600px;
