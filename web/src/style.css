@@ -58,8 +58,13 @@ th {
   color: white;
   max-height: 600px;
   overflow: auto;
+  white-space: pre-wrap;
   padding: 5px;
   margin: -5px;
+}
+
+.logRow:hover {
+  background-color: #494444;
 }
 
 @media screen and (max-width: 1000px) {
