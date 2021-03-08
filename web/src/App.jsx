@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import EventContainer from './EventContainer';
 import axios from 'axios';
+import "./style.css"
 
 function getMostSevereAlert(events) {
   if (events.some((event) => event.severity === 'critical')) {
@@ -34,26 +34,6 @@ function getBackgroundColor(events) {
   return background;
 }
 
-const Header = styled.h1`
-  margin: 0;
-  padding: 20px;
-`;
-
-const AppContainer = styled.div`
-  background: ${(props) => props.backgroundColor};
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const P = styled.p`
-  margin: 0;
-`;
-
 function CouldNotFetch({ lastSuccessfulFetch }) {
   let lastFetch;
   if (lastSuccessfulFetch) {
@@ -64,8 +44,8 @@ function CouldNotFetch({ lastSuccessfulFetch }) {
   }
   return (
     <>
-      <P>Could not fetch data</P>
-      <P>Last updated; {lastFetch}</P>
+      <p>Could not fetch data</p>
+      <p>Last updated; {lastFetch}</p>
     </>
   );
 }
@@ -103,12 +83,13 @@ export default () => {
   if (loading) {
     return <div>Loading...</div>;
   } else {
+    document.body.style.backgroundColor = backgroundColor
     return (
-      <AppContainer backgroundColor={backgroundColor}>
-        <Header>{window.location.host}</Header>
+      <div backgroundColor={backgroundColor}>
+        <div className="Header">{window.location.host}</div>
         {error && <CouldNotFetch lastSuccessfulFetch={lastSuccessfulFetch} />}
         <EventContainer events={events} />
-      </AppContainer>
+      </div>
     );
   }
 };
