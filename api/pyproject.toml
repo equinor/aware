@@ -8,6 +8,7 @@ authors = ["Stig Ofstad <stigofstad@gmail.com>"]
 python = "^3.8"
 flask = "^1.1"
 requests = "^2.22"
+pydantic = "^1.9.1"
 
 [tool.poetry.dev-dependencies]
 

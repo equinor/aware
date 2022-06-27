@@ -4,6 +4,7 @@ from typing import Dict, List
 
 from flask import abort, Flask, jsonify, request
 
+from api.monitors.website_healthcheck import get_websites_events
 from config import Config
 from monitors.external import get_exported_events
 from monitors.prometheus import get_prometheus_events
@@ -23,6 +24,9 @@ def get_raw_events() -> List[Dict]:
 
     for external_url in Config.import_urls_list:
         events += get_exported_events(external_url)
+
+    if Config.website_check_list:
+        events += [e.dict() for e in get_websites_events(Config.website_check_list.splitlines())]
 
     return events
 

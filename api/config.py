@@ -8,6 +8,7 @@ class Config:
     ignore_alert_list = _ignore_alert_list_.split(',') if _ignore_alert_list_ else []
     _import_urls_list_ = os.getenv("IMPORT_URLS")
     import_urls_list = _import_urls_list_.split(";") if _import_urls_list_ else []
+    website_check_list = os.getenv('WEBSITE_CHECK_LIST')
     flask_debug = os.getenv('FLASK_DEBUG', False)
     prometheus_api = os.getenv('PROMETHEUS_API')
     sensu_api = os.getenv('SENSU_API')

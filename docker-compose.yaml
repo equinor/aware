@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     depends_on:
       - nginx
-      - web
+#      - web
     build: api
     container_name: aware
     image: sdpequinor/aware-api:latest
@@ -28,6 +28,11 @@ services:
 #        EXPORT_SECRET: ${EXPORT_SECRET}
         LOKI_PASSWD: ${LOKI_PASSWD}
 #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown,Watchdog"
+        WEBSITE_CHECK_LIST: |
+          vg.no
+          ofstad.xyz
+          justtull.ofstad.xyz.
+          https://lost-circulation-material.app.radix.equinor.com
 
   web:
     restart: unless-stopped
